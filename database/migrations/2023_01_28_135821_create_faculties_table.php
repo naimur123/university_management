@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('religion')->nullable();
             $table->enum("maritalstatus", ["single", "married", "divorced"])->nullable();
             $table->string('password');
+            $table->string('profile')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

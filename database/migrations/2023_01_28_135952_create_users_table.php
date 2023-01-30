@@ -34,6 +34,7 @@ return new class extends Migration
             $table->float('cgpa')->nullable();
             $table->integer('credit')->nullable();
             $table->string('password');
+            $table->string('profile')->nullable();
             // $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

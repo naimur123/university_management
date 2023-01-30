@@ -43,14 +43,20 @@ class LoginController extends Controller
         $this->logout = route("admin.login");
     }
 
-    public function showloginForm()
-    {
-        return view('administrator.auth.login');
-    }
-
     protected function guard()
     {
         return Auth::guard('admin');
+    }
+
+    public function showloginForm()
+    {
+        if( Auth::guard('admin')->check() ){
+            return redirect($this->redirectTo);
+        }
+    
+        return view('administrator.auth.login');
+        
+        
     }
 
     protected function validateLogin(Request $request)
@@ -64,5 +70,13 @@ class LoginController extends Controller
     public function dashboard(Request $request)
     {
         return view('administrator.home');
+    }
+
+    public function logout(){
+        
+        // return redirect($this->logout) ?: redirect()->back();
+        Auth::guard('admin')->logout() ?: redirect()->back();
+        return redirect($this->logout);
+        
     }
 }
