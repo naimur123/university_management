@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Administrator\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class LoginController extends Controller
 {
@@ -41,6 +43,7 @@ class LoginController extends Controller
     {
         $this->redirectTo = route("admin.home");
         $this->logout = route("admin.login");
+        
     }
 
     protected function guard()
@@ -50,10 +53,12 @@ class LoginController extends Controller
 
     public function showloginForm()
     {
+        // $currentUrl = Url::current();
+        // echo $currentUrl;
         if( Auth::guard('admin')->check() ){
             return redirect($this->redirectTo);
         }
-    
+        // Toastr::info('Admin Login page','Title', ["positionClass" => "toast-top-right"]);
         return view('administrator.auth.login');
         
         
@@ -69,14 +74,17 @@ class LoginController extends Controller
 
     public function dashboard(Request $request)
     {
+        Toastr::success('Successfully loggedin');
         return view('administrator.home');
     }
 
     public function logout(){
         
         // return redirect($this->logout) ?: redirect()->back();
-        Auth::guard('admin')->logout() ?: redirect()->back();
-        return redirect($this->logout);
+        
+        return Auth::guard('admin')->logout() ?: redirect()->back();
+       
+        // return redirect($this->logout);
         
     }
 }

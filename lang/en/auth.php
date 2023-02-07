@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
+    'failed' => 'Invalid Username or Password.
+     Make sure you typed the user ID assigned to you by your organization. It usually looks like XX-XXXXX-X or XXXX-XXX-X. And check to make sure you typed the correct password.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 

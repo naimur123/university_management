@@ -1,0 +1,13 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+.toast-success {
+    float: right;
+    text-align: center;
+    background:#51a351 !important;
+               
+}
+
+.toast-error {
+    background-color: #bd362f !important;
+}
