@@ -1,13 +1,86 @@
 body {
     font-family: 'Open Sans', sans-serif;
 }
+#topbar {
+    border: 2px solid blue;
+    margin: 20px 40px 10px 60px;
+}
+.sidebar{
+    margin: auto auto auto 60px;
+}
+
 .toast-success {
-    float: right;
+    float: center !important;
     text-align: center;
     background:#51a351 !important;
                
 }
+/* .dropdown{
+    
+    display: inline-block;
+} */
 
 .toast-error {
     background-color: #bd362f !important;
 }
+
+/* #glyphicon{
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+}
+
+.dropdown-item {
+    display: none;
+    position: relative;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  Links inside the dropdown
+  .dropdown-item a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  } */
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-button {
+    background-color: white;
+    color: black;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  }
+  
+  .dropdown-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 8px 16px;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  

@@ -1,0 +1,55 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+#topbar {
+    border: 2px solid blue;
+    margin: 20px 40px 10px 60px;
+}
+.sidebar{
+    margin: auto auto auto 60px;   
+}
+.sidebar .btn{
+  margin-top: 4px;
+  display: block;
+  text-align: left !important;
+  width: 150%;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  
+}
+
+.collapse-item {
+  width: 150%;
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  color: #555;
+}
+.material-icons{
+  position: relative;
+  top: 4px;
+  display: inline-block;
+  line-height: 1;
+  font-size: 20px;
+}
+
+.contents{
+  border: 1px solid #ddd;
+  margin: 20px 40px 10px 60px;
+}
+
+
+
+.toast-success {
+    float: center !important;
+    text-align: center;
+    background:#51a351 !important;
+               
+}
+
+.toast-error {
+    background-color: #bd362f !important;
+}

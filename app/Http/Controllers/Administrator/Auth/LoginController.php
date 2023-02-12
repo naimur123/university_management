@@ -56,6 +56,7 @@ class LoginController extends Controller
         // $currentUrl = Url::current();
         // echo $currentUrl;
         if( Auth::guard('admin')->check() ){
+            
             return redirect($this->redirectTo);
         }
         // Toastr::info('Admin Login page','Title', ["positionClass" => "toast-top-right"]);
@@ -74,7 +75,7 @@ class LoginController extends Controller
 
     public function dashboard(Request $request)
     {
-        Toastr::success('Successfully loggedin');
+        
         return view('administrator.home');
     }
 
