@@ -44,10 +44,7 @@ body {
 
 
 .toast-success {
-    float: center !important;
-    text-align: center;
-    background:#51a351 !important;
-               
+  background-color: #28a745 !important;
 }
 
 .toast-error {

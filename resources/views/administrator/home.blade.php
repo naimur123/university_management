@@ -28,6 +28,12 @@
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    {{-- toastr --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.2/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.2/datatables.min.js"></script>
 
 
     <!-- Scripts -->
@@ -64,10 +70,6 @@
                                     <a class="dropdown-item" href="{{ route('admin.logout') }}">
                                         {{ __('Logout') }}
                                     </a>
-
-                                    {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form> --}}
                                 </div>
                             </li>
                        
@@ -82,10 +84,12 @@
                         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample" aria-expanded="false" aria-controls="multiCollapseExample">
                         FACULTY</button>
                             <div class="collapse multi-collapse" id="multiCollapseExample">
-                                <a class="collapse-item text-decoration-none" href="#"><span class="material-icons">
+                                <a class="collapse-item text-decoration-none" href="{{ route('admin.assign_faculty') }}"><span class="material-icons">
                                     account_circle
-                                    </span>Action</a>
-                                <a class="collapse-item text-decoration-none" href="#">Another action</a>
+                                    </span>Assign Faculty</a>
+                                <a class="collapse-item text-decoration-none" href="{{ route('admin.faculty.list') }}"><span class="material-icons">
+                                    format_list_bulleted
+                                    </span>Faculty List</a>
                             </div>
                     
                         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
@@ -112,6 +116,7 @@
             </div>
             <div class="col-10">
                 <div class="contents">
+                    @yield('content')
                 </div>  
             </div>
         </div>

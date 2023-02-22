@@ -53,8 +53,7 @@ class LoginController extends Controller
 
     public function showloginForm()
     {
-        // $currentUrl = Url::current();
-        // echo $currentUrl;
+       
         if( Auth::guard('admin')->check() ){
             
             return redirect($this->redirectTo);
