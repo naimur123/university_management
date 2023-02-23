@@ -20,6 +20,7 @@ Route::middleware('auth:admin')->group(function(){
         // faculty
         Route::get('/faculty-list',[FacultyController::class,'index'])->name('faculty.list');
         Route::get('/assign_faculty',[FacultyController::class,'create'])->name('assign_faculty');
+        Route::get('/assign_faculty/{id}',[FacultyController::class,'edit'])->name('assign_faculty.edit');
         Route::post('/assign_faculty',[FacultyController::class,'store'])->name('assign_faculty.store');
     });
 

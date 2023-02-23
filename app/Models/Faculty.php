@@ -11,12 +11,12 @@ class Faculty extends Authenticatable
 {
     use HasFactory;
 
-    public function createdBy(){
-        return $this->belongsTo(Administrator::class, "added_by");
-    }
-    public function updatedBy(){
-        return $this->belongsTo(Administrator::class, "updated_by");
-    }
+    // public function createdBy(){
+    //     return $this->belongsTo(Administrator::class, "added_by");
+    // }
+    // public function updatedBy(){
+    //     return $this->belongsTo(Administrator::class, "updated_by");
+    // }
 
     protected static function boot()
     {

@@ -34,7 +34,7 @@
         <div class="col-12 col-sm-6 col-md-4">
             <div class="form-group">
                 <label>First Name <span class="text-danger">*</span></label>
-                <input type="text" class="form-control " value="{{ old("name") ?? ($data->name ?? "")}} {{--  {{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="first_name" id="first_name" value="{{ old("first_name") ?? ($data->first_name ?? "")}}--}}" name="first_name" required >
+                <input type="text" class="form-control " value="{{ old("name") ?? ($data->first_name ?? "")}} " name="first_name" required >
                 @error('first_name')
                        <strong class="text-danger">{{ $message }}</strong>
                 @enderror
@@ -60,6 +60,20 @@
                 @error('email')
                        <strong class="text-danger">{{ $message }}</strong>
                 @enderror
+            </div>
+        </div>
+
+        <!--Rnak -->
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="form-group">
+                <label>Rank</label>
+                <select class="form-control select2" name="rank">
+                    <option value="Professor">Professor</option>
+                    <option value="Assistant Professor">Assistant Professor</option>
+                    <option value="Dr.">Dr.</option>
+                    <option value="Faculty">Faculty</option>                           
+                    <option value="Teaching Assistant">Teaching Assistant(T.A)</option>                           
+                </select>
             </div>
         </div>
 
@@ -136,7 +150,7 @@
         <div class="col-12 my-2">
             <div class="form-group">
                 <label>Present Address</label>
-                <textarea class="form-control editor" name="presentaddress" value="{{ old("presentaddress") ?? ($data->presentaddress ?? "")  }}"></textarea>
+                <textarea class="form-control editor" name="presentaddress">{{ old("presentaddress") ?? ($data->presentaddress ?? "")  }}</textarea>
                 @error('presentaddress')
                 <strong class="text-danger">{{ $message }}</strong>
                 @enderror
@@ -147,7 +161,7 @@
         <div class="col-12 my-2">
             <div class="form-group">
                 <label>Permanent Address</label>
-                <textarea class="form-control editor" name="permanentaddress" value="{{ old("permanentaddress") ?? ($data->permanentaddress ?? "")  }}"></textarea>
+                <textarea class="form-control editor" name="permanentaddress">{{ old("permanentaddress") ?? ($data->permanentaddress ?? "")  }} </textarea>
                 @error('permanentaddress')
                 <strong class="text-danger">{{ $message }}</strong>
                 @enderror

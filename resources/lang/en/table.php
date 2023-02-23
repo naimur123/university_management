@@ -13,7 +13,12 @@ return [
     "sex"          => "Sex",
     "nationality"          => "Nationality",
     "maritalstatus"          => "Marital status",
+    "religion"          => "Religion",
+    "presentaddress" => "Present Address",
+    "permanentaddress" => "Permanent Address",
     "added_by"          => "Added by",
     "updated_by"          => "Updated by",
+    "action"          => "Action",
+
     
 ];

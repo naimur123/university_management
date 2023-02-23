@@ -11,19 +11,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class FacultyController extends Controller
 {
 
     // Get Table Column List
     private function getColumns(){
-        $columns = ['#', 'user_id', 'first_name', 'last_name', 'email','mobile', 'added_by', 'updated_by', 'action'];
+        $columns = ['#', 'user_id', 'rank', 'first_name', 'last_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus', 'added_by', 'updated_by', 'action'];
         return $columns;
     }
 
     // Get DataTable Column List
     private function getDataTableColumns(){
-        $columns = ['id', 'user_id', 'first_name', 'last_name', 'email','mobile', 'added_by', 'updated_by','action' ];
+        $columns = ['index', 'user_id', 'rank', 'first_name', 'last_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','added_by', 'updated_by','action' ];
         return $columns;
     }
 
@@ -50,6 +51,8 @@ class FacultyController extends Controller
         ];
         return view('administrator.table', $params);
     }
+
+    //create new faculty
     public function create(Request $request){
         $params = [
             "title"       =>   "Assign",
@@ -59,6 +62,8 @@ class FacultyController extends Controller
        
        return view('administrator.faculty.create',$params);
     }
+
+    
     public function store(Request $request){
 
         try{
@@ -74,7 +79,6 @@ class FacultyController extends Controller
                 $data->updated_by = $request->user()->id;
             }
 
-            // $data->user_id = uniqid(5);
             $data->first_name = $request->first_name ?? "n/a";
             $data->last_name = $request->last_name ?? 'n/a';
             $data->email = $request->email ?? 'n/a';
@@ -109,17 +113,32 @@ class FacultyController extends Controller
         // return back();
     }
 
+    //update faculty
+    public function edit(Request $request){
+        $params =[
+              "title" => "Edit",
+              "data" => $this->getModel()->find($request->id),
+              "form_url"    => route('admin.assign_faculty.store')
+
+        ];
+        return view('administrator.faculty.create',$params);
+    }
+
 
     protected function getDataTable($request){
         if ($request->ajax()) {
             $data = $this->getModel()->select('faculties.*', 'added.first_name as added_by','updated.first_name as updated_by')
+                                    ->orderBy('id', 'DESC')
                                     ->join('administrators as added', 'added.id', '=', 'faculties.added_by')
                                     ->leftjoin('administrators as updated', 'updated.id', '=', 'faculties.updated_by')
                                     ->get();
             
             return DataTables::of($data)->addIndexColumn()
+                ->addColumn('index', function(){ return ++$this->index; })
+                ->addColumn('sex', function($row){ return $this->getSex($row->sex); })
+                ->addColumn('maritalstatus', function($row){ return Str::ucfirst($row->maritalstatus); })
                 ->addColumn('action', function($row){
-                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
+                    $btn = '<a href="'.route('admin.assign_faculty.edit',['id' => $row->id]).'" class="btn btn-primary btn-sm">Edit</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
