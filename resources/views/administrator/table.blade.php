@@ -1,4 +1,4 @@
-@extends('administrator.home')
+@extends('administrator.masterPage')
 @section('content')
 <div class="page-body">
     <div class="card">

@@ -79,18 +79,18 @@ class FacultyController extends Controller
                 $data->updated_by = $request->user()->id;
             }
 
-            $data->first_name = $request->first_name ?? "n/a";
-            $data->last_name = $request->last_name ?? 'n/a';
-            $data->email = $request->email ?? 'n/a';
-            $data->rank = $request->rank ?? 'n/a';
-            $data->dob = $request->dob ?? '';
-            $data->mobile = $request->mobile ?? '';
-            $data->presentaddress = $request->presentaddress ?? "";
-            $data->permanentaddress = $request->permanentaddress ?? "";
-            $data->sex = $request->sex ?? '';
-            $data->nationality = $request->nationality ?? '';
-            $data->religion = $request->religion ?? '';
-            $data->maritalstatus = $request->maritalstatus ?? '';
+            $data->first_name = $request->first_name;
+            $data->last_name = $request->last_name;
+            $data->email = $request->email;
+            $data->rank = $request->rank;
+            $data->dob = $request->dob;
+            $data->mobile = $request->mobile;
+            $data->presentaddress = $request->presentaddress;
+            $data->permanentaddress = $request->permanentaddress;
+            $data->sex = $request->sex;
+            $data->nationality = $request->nationality;
+            $data->religion = $request->religion;
+            $data->maritalstatus = $request->maritalstatus;
             $data->password = uniqid(8);
             $data->save();
             

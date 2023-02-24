@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrator\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Providers\RouteServiceProvider;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -74,8 +75,10 @@ class LoginController extends Controller
 
     public function dashboard(Request $request)
     {
-        
-        return view('administrator.home');
+        $params = [
+            "departments" => Department::all()
+        ];
+        return view('administrator.masterPage',$params);
     }
 
     public function logout(){
