@@ -5,7 +5,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="{{ isset($create) ? 'col-10' : 'col-12' }}" >
-                    <h5>{{ ucfirst( str_replace(['_','-'], ' ', $pageTitle) ) }}</h5>
+                    <h5>{{ ucfirst( $pageTitle)  }}</h5>
                 </div>
                 @if( isset($create) && $create )
                     <div class="col-2 text-right">
@@ -46,8 +46,15 @@
                 @endforeach                
             ],
             "lengthMenu": [[10, 20, 50, 100, 500, 1000, -1], [10, 20, 50, 100, 500, 1000, "All"]],
+            
+           
         });
     });
+    setInterval(function () {
+          $('#table').DataTable().ajax.reload();
+    }, 5000);
+
+
 </script>
 @endsection
 

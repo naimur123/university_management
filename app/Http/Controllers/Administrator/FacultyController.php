@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Faculty;
 use Brian2694\Toastr\Facades\Toastr;
 use Exception;
@@ -18,13 +19,13 @@ class FacultyController extends Controller
 
     // Get Table Column List
     private function getColumns(){
-        $columns = ['#', 'user_id', 'rank', 'first_name', 'last_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus', 'added_by', 'updated_by', 'action'];
+        $columns = ['#', 'user_id', 'rank', 'first_name', 'last_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department', 'added_by', 'updated_by', 'action'];
         return $columns;
     }
 
     // Get DataTable Column List
     private function getDataTableColumns(){
-        $columns = ['index', 'user_id', 'rank', 'first_name', 'last_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','added_by', 'updated_by','action' ];
+        $columns = ['index', 'user_id', 'rank', 'first_name', 'last_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department_name','admin_name', 'updated_by','action' ];
         return $columns;
     }
 
@@ -50,13 +51,17 @@ class FacultyController extends Controller
            
         ];
         return view('administrator.table', $params);
+     
+        
+        // echo $data;
     }
 
     //create new faculty
     public function create(Request $request){
         $params = [
             "title"       =>   "Assign",
-            "form_url"    => route('admin.assign_faculty.store')
+            "form_url"    => route('admin.assign_faculty.store'),
+            "departments"  => Department::all()
 
        ];
        
@@ -91,6 +96,7 @@ class FacultyController extends Controller
             $data->nationality = $request->nationality;
             $data->religion = $request->religion;
             $data->maritalstatus = $request->maritalstatus;
+            $data->department_id = $request->department_id;
             $data->password = uniqid(8);
             $data->save();
             
@@ -122,17 +128,20 @@ class FacultyController extends Controller
 
         ];
         return view('administrator.faculty.create',$params);
+       
     }
 
 
     protected function getDataTable($request){
         if ($request->ajax()) {
-            $data = $this->getModel()->select('faculties.*', 'added.first_name as added_by','updated.first_name as updated_by')
-                                    ->orderBy('id', 'DESC')
-                                    ->join('administrators as added', 'added.id', '=', 'faculties.added_by')
-                                    ->leftjoin('administrators as updated', 'updated.id', '=', 'faculties.updated_by')
-                                    ->get();
-            
+            $data= $this->getModel()
+                        ->select('faculties.*', 'administrators.first_name as admin_name', 'updated.first_name as updated_by', 'departments.name as department_name')
+                        ->orderBy('id', 'DESC')
+                        ->join('administrators', 'administrators.id', '=', 'faculties.added_by')
+                        ->leftJoin('administrators as updated', 'updated.id', '=', 'faculties.updated_by')
+                        ->join('departments', 'departments.id', '=', 'faculties.department_id')
+                        ->get();
+          
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('index', function(){ return ++$this->index; })
                 ->addColumn('sex', function($row){ return $this->getSex($row->sex); })

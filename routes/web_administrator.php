@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Administrator\Auth\LoginController;
+use App\Http\Controllers\Administrator\CourseController;
 use App\Http\Controllers\Administrator\FacultyController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,9 @@ Route::middleware('auth:admin')->group(function(){
         Route::get('/assign_faculty',[FacultyController::class,'create'])->name('assign_faculty');
         Route::get('/assign_faculty/{id}',[FacultyController::class,'edit'])->name('assign_faculty.edit');
         Route::post('/assign_faculty',[FacultyController::class,'store'])->name('assign_faculty.store');
+
+        // course list
+        Route::get('/course-list/{name}',[CourseController::class,'index'])->name('course.list');
     });
 
 });

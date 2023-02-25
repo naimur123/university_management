@@ -30,6 +30,7 @@ return new class extends Migration
             $table->enum("maritalstatus", ["single", "married", "divorced"])->nullable();
             $table->string('password')->nullable();
             $table->string('profile')->nullable();
+            $table->foreignId('department_id')->nullable()->references('id')->on('departments');
             $table->integer('added_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

@@ -51,9 +51,11 @@
                             </div>
 
                         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
-                            Faculty of Science and Technology</button>
+                            Department Of Computer Science</button>
                             <div class="collapse multi-collapse" id="multiCollapseExample2">
-                                <a class="collapse-item text-decoration-none" href="#"><i class="fas fa-star"></i>Action</a>
+                                <a class="collapse-item text-decoration-none" href="{{ route('admin.course.list', ['name' => 'cse']) }}"><span class="material-icons">
+                                    format_list_bulleted
+                                    </span>Course List</a>
                                 <a class="collapse-item text-decoration-none" href="#">Another action</a>
                             </div>
                         

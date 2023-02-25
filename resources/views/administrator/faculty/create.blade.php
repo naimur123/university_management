@@ -135,10 +135,21 @@
                             </select>
                         </div>
                     </div>
-
+                    <!--Set Status -->
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label>Department<span class="text-danger">*</span></label>
+                            <select class="form-control select2" name="department_id" required >
+                                <option value="">Select Department</option>
+                                @foreach($departments as $department)
+                                    <option value="{{ $department->id }}"  {{ old('department_id') && old('department_id') == $department->id ? 'selected' : (isset($data->department) && $data->department == $department->id ? "selected" : Null) }}> {{ $department->name }} </option>     
+                                @endforeach                           
+                            </select>
+                        </div>
+                    </div>
                 
                     <!-- Present Address -->
-                    <div class="col-12 my-2">
+                    <div class="col-6">
                         <div class="form-group">
                             <label>Present Address</label>
                             <textarea class="form-control editor" name="presentaddress">{{ old("presentaddress") ?? ($data->presentaddress ?? "")  }}</textarea>
@@ -149,7 +160,7 @@
                     </div>
 
                     <!-- Permanent Address -->
-                    <div class="col-12 my-2">
+                    <div class="col-6">
                         <div class="form-group">
                             <label>Permanent Address</label>
                             <textarea class="form-control editor" name="permanentaddress">{{ old("permanentaddress") ?? ($data->permanentaddress ?? "")  }} </textarea>
@@ -158,9 +169,6 @@
                             @enderror
                         </div>
                     </div>
-
-
-                    
                     
                     
                     <!--submit -->

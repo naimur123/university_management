@@ -2,6 +2,8 @@
 
 namespace App\Http\Components\Traits;
 
+use NumberFormatter;
+
 trait Helper{
     //get Matital Status
     public function getSex($sex){
@@ -20,5 +22,12 @@ trait Helper{
                 break;
 
         }
+    }
+    public function numberform($sem){
+        $locale = 'en-US';
+
+        $formatter = new \NumberFormatter($locale, \NumberFormatter::ORDINAL);
+        $formattedNumber = $formatter->format($sem);
+        return $formattedNumber;
     }
 }

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('middlename')->nullable();
             $table->string('lastname');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('fathername')->nullable();
             $table->string('mothername')->nullable();
             $table->text('presentaddress')->nullable();
@@ -35,6 +34,7 @@ return new class extends Migration
             $table->integer('credit')->nullable();
             $table->string('password');
             $table->string('profile')->nullable();
+            $table->foreignId('department_id')->nullable()->references('id')->on('departments');
             // $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
