@@ -50,7 +50,7 @@ class CourseController extends Controller
 
     protected function getDataTable($request){
         if ($request->ajax()) {
-           
+
             if($request->name =="cse"){
                 $data = $this->getModel()
                              ->where('department_id','=',1)
