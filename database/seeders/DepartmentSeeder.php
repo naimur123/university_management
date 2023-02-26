@@ -20,12 +20,14 @@ class DepartmentSeeder extends Seeder
             [
                 "name"  => "Faculty of Science and Technology",
                 "curriculum"  => "Bachelor of Science in Computer Science & Engineering",
+                "curriculum_short_name"  => "cse",
                 "total_credit"  => 148,
                 "added_by"  => 1
             ],
             [
                 "name"  => "Faculty of Arts and Social Sciences",
                 "curriculum"  => "Bachelor of Laws (LL.B.)",
+                "curriculum_short_name"  => "law",
                 "total_credit"  => 130,
                 "added_by"  => 1
             ]

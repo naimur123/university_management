@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('curriculum');
+            $table->string('curriculum_short_name')->nullable();
             $table->integer('total_credit');
             $table->integer('added_by')->nullable();
             $table->integer('updated_by')->nullable();

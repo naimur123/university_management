@@ -1,8 +1,3 @@
-{{-- @extends('administrator.masterPage')
-@section('content') --}}
-{{-- <div class="col-10 col-lg-10 mt-2 mb-2 mx-2"> --}}
-
-    
 @extends('administrator.masterPage')
 @section('content')
 <div class="row justify-content-center">
@@ -25,7 +20,7 @@
                     <div class="col-12 col-sm-6 col-md-4">
                         <div class="form-group">
                             <label>First Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control " value="{{ old("name") ?? ($data->first_name ?? "")}} " name="first_name">
+                            <input type="text" class="form-control " value="{{ old("first_name") ?? ($data->first_name ?? "")}} " name="first_name">
                             @error('first_name')
                                 <strong class="text-danger">{{ $message }}</strong>
                             @enderror

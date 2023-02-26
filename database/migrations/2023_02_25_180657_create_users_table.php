@@ -16,14 +16,15 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('user_id')->unique();
-            $table->string('firstname');
-            $table->string('middlename')->nullable();
-            $table->string('lastname');
+            $table->string('first_name');
+            $table->string('middle_name')->nullable();
+            $table->string('last_name');
             $table->string('email')->unique();
-            $table->string('fathername')->nullable();
-            $table->string('mothername')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('father_name')->nullable();
+            $table->string('mother_name')->nullable();
             $table->text('presentaddress')->nullable();
-            $table->text('parmanentaddress')->nullable();
+            $table->text('permanentaddress')->nullable();
             $table->date('dob')->nullable();
             $table->enum('sex',['m','f','o'])->nullable();;
             $table->string('nationality');
@@ -35,7 +36,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('profile')->nullable();
             $table->foreignId('department_id')->nullable()->references('id')->on('departments');
-            // $table->rememberToken();
+            $table->boolean('is_graduated')->nullable()->default(0);
+            $table->integer('added_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

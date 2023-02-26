@@ -3,6 +3,7 @@
 use App\Http\Controllers\Administrator\Auth\LoginController;
 use App\Http\Controllers\Administrator\CourseController;
 use App\Http\Controllers\Administrator\FacultyController;
+use App\Http\Controllers\Administrator\StudentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,6 +27,13 @@ Route::middleware('auth:admin')->group(function(){
 
         // course list
         Route::get('/course-list/{name}',[CourseController::class,'index'])->name('course.list');
+
+        //student
+        Route::get('/sudent-list/{name}',[StudentController::class,'index'])->name('student.list');
+        Route::get('/assign_student/{name}',[StudentController::class,'create'])->name('assign_student');
+        Route::post('/assign_studnet',[StudentController::class,'store'])->name('assign_student.store');
+        // Route::get('/assign_studnet/{id}',[FacultyController::class,'edit'])->name('assign_faculty.edit');
+
     });
 
 });

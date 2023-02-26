@@ -6,6 +6,9 @@ return [
     "user_id"            => "User ID",
     "first_name"          => "First Name",
     "last_name"          => "Last Name",
+    "middle_name"          => "Middle Name",
+    "father_name"          => "Father Name",
+    "mother_name"          => "Mother Name",
     "email"          => "Email",
     "rank"          => "Rank",
     "mobile"          => "Mobile",
@@ -24,7 +27,9 @@ return [
     "course_name" => "Course Description",
     "prereq"      => "Pre requsite",
     "credit"      => "Course Credit",
-    "sem"         => "Semester"
+    "sem"         => "Semester",
+    'is_graduated' => "Graduated"
+
 
     
 ];

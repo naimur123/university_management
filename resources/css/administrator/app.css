@@ -2,12 +2,13 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 #topbar {
-    border: 2px solid blue;
+    border: 2px solid #004ea2;
     margin: 20px 40px 10px 60px;
 }
 .sidebar{
     margin: auto auto auto 60px;   
 }
+
 .sidebar .btn{
   margin-top: 4px;
   display: block;
@@ -15,7 +16,8 @@ body {
   width: 150%;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  
+  background-color: #004ea2;
+  color: white;
 }
 .collapse-item {
   width: 150%;
@@ -71,6 +73,7 @@ body {
     border-color: #01a9ac;
     color:#fff !important;
 }
+
 
 /* Toastr message */
 .toast-success {

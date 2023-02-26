@@ -68,7 +68,7 @@ class FacultyController extends Controller
        return view('administrator.faculty.create',$params);
     }
 
-    
+    //store faculty
     public function store(Request $request){
 
         try{
@@ -87,9 +87,8 @@ class FacultyController extends Controller
             $data->first_name = $request->first_name;
             $data->last_name = $request->last_name;
             $data->email = $request->email;
-            $data->rank = $request->rank;
-            $data->dob = $request->dob;
             $data->mobile = $request->mobile;
+            $data->dob = $request->dob;
             $data->presentaddress = $request->presentaddress;
             $data->permanentaddress = $request->permanentaddress;
             $data->sex = $request->sex;
@@ -97,7 +96,7 @@ class FacultyController extends Controller
             $data->religion = $request->religion;
             $data->maritalstatus = $request->maritalstatus;
             $data->department_id = $request->department_id;
-            $data->password = uniqid(8);
+            $data->password = bcrypt(8);
             $data->save();
             
             DB::commit();

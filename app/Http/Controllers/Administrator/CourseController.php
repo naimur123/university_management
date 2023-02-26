@@ -12,13 +12,13 @@ class CourseController extends Controller
 {
     // Get Table Column List
     private function getColumns(){
-        $columns = ['#', "code", "course_name","prereq","credit","sem","action"];
+    $columns = ['#', "code", "course_name","prereq","credit","sem"/*"action"*/];
         return $columns;
     }
 
     // Get DataTable Column List
     private function getDataTableColumns(){
-        $columns = ['index',"code", "course_name","prereq","credit","sem",'action' ];
+        $columns = ['index',"code", "course_name","prereq","credit","sem"/*"action"*/];
         return $columns;
     }
 
@@ -59,11 +59,11 @@ class CourseController extends Controller
           
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('index', function(){ return ++$this->index; })
-                ->addColumn('action', function($row){
-                    $btn = '<a href="" class="btn btn-primary btn-sm">Edit</a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
+                // ->addColumn('action', function($row){
+                //     $btn = '<a href="" class="btn btn-primary btn-sm">Edit</a>';
+                //     return $btn;
+                // })
+                // ->rawColumns(['action'])
                 ->make(true);
         }
 
