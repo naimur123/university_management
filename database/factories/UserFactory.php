@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Administrator;
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -17,7 +19,10 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $admin = Administrator::first();
+        $department = Department::first();
         return [
+            'id'        => Str::uuid(),
             'first_name' => fake()->name(),
             'middle_name' => fake()->name(),
             'last_name' => fake()->name(),
@@ -27,8 +32,8 @@ class UserFactory extends Factory
             'mobile' => $this->faker->numerify('###-###-####'),
             'nationality' => fake()->name(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'department_id' => 1,
-            'added_by' => 1
+            'department_id'      => $department->id,
+            'added_by'  => $admin->id
         ];
     }
 

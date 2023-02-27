@@ -22,8 +22,8 @@ Route::middleware('auth:admin')->group(function(){
         // faculty
         Route::get('/faculty-list',[FacultyController::class,'index'])->name('faculty.list');
         Route::get('/assign_faculty',[FacultyController::class,'create'])->name('assign_faculty');
-        Route::get('/assign_faculty/{id}',[FacultyController::class,'edit'])->name('assign_faculty.edit');
-        Route::post('/assign_faculty',[FacultyController::class,'store'])->name('assign_faculty.store');
+        Route::get('/faculty/edit/{id}',[FacultyController::class,'edit'])->name('faculty.edit');
+        Route::post('/assign_faculty',[FacultyController::class,'store'])->name('faculty.store');
 
         // course list
         Route::get('/course-list/{name}',[CourseController::class,'index'])->name('course.list');
@@ -31,7 +31,7 @@ Route::middleware('auth:admin')->group(function(){
         //student
         Route::get('/sudent-list/{name}',[StudentController::class,'index'])->name('student.list');
         Route::get('/assign_student/{name}',[StudentController::class,'create'])->name('assign_student');
-        Route::post('/assign_studnet',[StudentController::class,'store'])->name('assign_student.store');
+        Route::post('/assign_studnet',[StudentController::class,'store'])->name('student.store');
         // Route::get('/assign_studnet/{id}',[FacultyController::class,'edit'])->name('assign_faculty.edit');
 
     });

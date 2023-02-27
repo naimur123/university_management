@@ -60,7 +60,7 @@ class FacultyController extends Controller
     public function create(Request $request){
         $params = [
             "title"       =>   "Assign",
-            "form_url"    => route('admin.assign_faculty.store'),
+            "form_url"    => route('admin.faculty.store'),
             "departments"  => Department::all()
 
        ];
@@ -76,6 +76,7 @@ class FacultyController extends Controller
             if( $request->id == 0 ){
 
                 $data = $this->getModel();
+                $data->id         =  Str::uuid();
                 $data->added_by = $request->user()->id;
                 
             }
@@ -84,6 +85,7 @@ class FacultyController extends Controller
                 $data->updated_by = $request->user()->id;
             }
 
+            $data->rank = $request->rank;
             $data->first_name = $request->first_name;
             $data->last_name = $request->last_name;
             $data->email = $request->email;
@@ -123,7 +125,8 @@ class FacultyController extends Controller
         $params =[
               "title" => "Edit",
               "data" => $this->getModel()->find($request->id),
-              "form_url"    => route('admin.assign_faculty.store')
+              "form_url"    => route('admin.faculty.store'),
+              "departments"  => Department::all()
 
         ];
         return view('administrator.faculty.create',$params);
@@ -135,7 +138,7 @@ class FacultyController extends Controller
         if ($request->ajax()) {
             $data= $this->getModel()
                         ->select('faculties.*', 'administrators.first_name as admin_name', 'updated.first_name as updated_by', 'departments.name as department_name')
-                        ->orderBy('id', 'DESC')
+                        ->orderBy('created_at', 'DESC')
                         ->join('administrators', 'administrators.id', '=', 'faculties.added_by')
                         ->leftJoin('administrators as updated', 'updated.id', '=', 'faculties.updated_by')
                         ->join('departments', 'departments.id', '=', 'faculties.department_id')
@@ -146,7 +149,7 @@ class FacultyController extends Controller
                 ->addColumn('sex', function($row){ return $this->getSex($row->sex); })
                 ->addColumn('maritalstatus', function($row){ return Str::ucfirst($row->maritalstatus); })
                 ->addColumn('action', function($row){
-                    $btn = '<a href="'.route('admin.assign_faculty.edit',['id' => $row->id]).'" class="btn btn-primary btn-sm">Edit</a>';
+                    $btn = '<a href="'.route('admin.faculty.edit',['id' => $row->id]).'" class="btn btn-primary btn-sm">Edit</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

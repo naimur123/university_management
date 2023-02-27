@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -50,12 +51,10 @@ class CourseController extends Controller
 
     protected function getDataTable($request){
         if ($request->ajax()) {
-
-            if($request->name =="cse"){
-                $data = $this->getModel()
-                             ->where('department_id','=',1)
+            $dpt_id = Department::where('curriculum_short_name',$request->name)->pluck('id');
+            $data = $this->getModel()
+                             ->where('department_id',$dpt_id)
                              ->get();
-            }
           
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('index', function(){ return ++$this->index; })

@@ -52,7 +52,7 @@
     });
     setInterval(function () {
           $('#table').DataTable().ajax.reload();
-    }, 5000);
+    }, 60000);
 
 
 </script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administrator;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\User;
+use App\Notifications\WelcomeNewStudentNotification;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class StudentController extends Controller
    public function create(Request $request){
         $params = [
             "title"       =>   "Assign",
-            "form_url"    => route('admin.assign_student.store'),
+            "form_url"    => route('admin.student.store'),
             "department"  => Department::where('curriculum_short_name',$request->name)->get()
 
         ];
@@ -64,6 +65,7 @@ class StudentController extends Controller
    //store student
    public function store(Request $request){
 
+    $random = mt_rand(10000000,99999999);
     try{
         DB::beginTransaction();
         if( $request->id == 0 ){
@@ -77,6 +79,7 @@ class StudentController extends Controller
             $data->updated_by = $request->user()->id;
         }
 
+        $data->id         =  Str::uuid();
         $data->first_name = $request->first_name;
         $data->middle_name = $request->middle_name;
         $data->last_name = $request->last_name;
@@ -92,13 +95,14 @@ class StudentController extends Controller
         $data->religion = $request->religion;
         $data->maritalstatus = $request->maritalstatus;
         $data->department_id = $request->department_id;
-        $data->password = bcrypt(8);
+        $data->password = bcrypt($random);
         $data->save();
         
         DB::commit();
         try{
             if($request->id == 0){
                 event(new Registered($data));
+                $data->notify(new WelcomeNewStudentNotification($data,$random));
             }
         }catch(Exception $e){
                 //
@@ -107,6 +111,7 @@ class StudentController extends Controller
             DB::rollBack();
             return back()->with("error", $this->getError($e))->withInput();
         }
+        
         return back()->with("success", $request->id == 0 ? "Student Added Successfully" : "Student Updated Successfully");
    
     }
@@ -117,7 +122,7 @@ class StudentController extends Controller
             $data = $this->getModel()
                          ->where('department_id',$dpt_id)
                          ->select('users.*', 'administrators.first_name as admin_name', 'updated.first_name as updated_by', 'departments.name as department_name')
-                         ->orderBy('id', 'DESC')
+                         ->orderBy('created_at', 'DESC')
                          ->join('administrators', 'administrators.id', '=', 'users.added_by')
                          ->leftJoin('administrators as updated', 'updated.id', '=', 'users.updated_by')
                          ->join('departments', 'departments.id', '=', 'users.department_id')
