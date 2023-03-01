@@ -26,6 +26,7 @@ return new class extends Migration
             $table->uuid('updated_by')->nullable();
             $table->foreign('updated_by')->references('id')->on('administrators');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

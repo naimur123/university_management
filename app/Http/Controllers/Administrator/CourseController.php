@@ -51,10 +51,10 @@ class CourseController extends Controller
 
     protected function getDataTable($request){
         if ($request->ajax()) {
-            $dpt_id = Department::where('curriculum_short_name',$request->name)->pluck('id');
+            $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
             $data = $this->getModel()
-                             ->where('department_id',$dpt_id)
-                             ->get();
+                         ->where('department_id',$dpt_id)
+                         ->get();
           
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('index', function(){ return ++$this->index; })
