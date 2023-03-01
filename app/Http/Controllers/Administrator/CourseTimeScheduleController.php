@@ -25,8 +25,9 @@ class CourseTimeScheduleController extends Controller
     //create 
     public function create(Request $request){
         $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
+
+
         //Days get
-        // $days = [];
         $days = [];
         $now = Carbon::now()->startOfWeek(Carbon::SUNDAY);
         for ($i = 0; $i < 7; $i++) {
@@ -100,6 +101,7 @@ class CourseTimeScheduleController extends Controller
         return back()->with("success", $request->id == 0 ? "Course Schedule Time Added SuccessFully" : "Course Schedule Time Updated Successfully");
     }
 
+    //Get End time
     public function getEndTime($request){
 
         $start_time = Carbon::parse($request->start_time);
