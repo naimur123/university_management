@@ -114,10 +114,8 @@ class FacultyController extends Controller
             return back()->with("error", $this->getError($e))->withInput();
         }
 
-        // Toastr::success('Faculty Added Successfully', 'Success', ["positionClass" => "toast-top-right"]);
-        
         return back()->with("success", $request->id == 0 ? "Faculty Added Successfully" : "Faclty Updated Successfully");
-        // return back();
+     
     }
 
     //update faculty

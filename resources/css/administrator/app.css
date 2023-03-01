@@ -83,3 +83,12 @@ body {
 .toast-error {
     background-color: #bd362f !important;
 }
+
+.multiselect-container label.radio {
+	padding-left: 20px !important;
+}
+
+/* Hide Down Arrow */
+.multiselect.dropdown-toggle::after {
+	display: none;
+}

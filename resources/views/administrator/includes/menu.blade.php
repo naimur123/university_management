@@ -62,6 +62,9 @@
                                     <a class="collapse-item text-decoration-none" href="{{ route('admin.student.list', ['name' => 'cse']) }}"><span class="material-icons">
                                         format_list_bulleted
                                         </span>Student List</a>
+                                    <a class="collapse-item text-decoration-none" href="{{ route('admin.course_schedule', ['name' => 'cse']) }}"><span class="material-icons">
+                                        calendar_month
+                                        </span>Course Schedule</a>
                             </div>
                         
                             

@@ -1,3 +1,5 @@
-import '../bootstrap';
-// const toastElList = document.querySelectorAll('.toast')
-// const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option))
+$(document).ready(function() {
+    $('#example-multiple-selected').multiselect();
+});
+
+  
