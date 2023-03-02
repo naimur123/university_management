@@ -13,6 +13,7 @@ use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class CourseTimeScheduleController extends Controller
@@ -45,26 +46,21 @@ class CourseTimeScheduleController extends Controller
         } else {
             $session = 'Fall'.'-'. $year;
         }
+
         $params = [
             "title"       =>   "Course Time Schedule",
             "form_url"    =>   route('admin.course_schedule.store'),
-            "faculties"   =>   Faculty::where("department_id",$dpt_id)->get(),
             "courses"     =>   Course::where("department_id", $dpt_id)->get(),
-            "sections"    =>   Section::orderBy('name','asc')->get(),
             "days"        =>   $days,
-            "session"    =>   $session
+            "session"    =>    $session,
+            "dataUrl"    =>    route('admin.reg.course',$request->name)
         ];
         return view('administrator.courseschedule.create',$params);
     }
 
     //store course time schedule
     public function store(Request $request){
-       
-        // $request->validate([
-        //     'day' => 'required|array',
-        //     'day.*' => 'string',
-        // ]);
-       
+
         try{
             DB::beginTransaction();
             if( $request->id == 0 ){
@@ -113,6 +109,41 @@ class CourseTimeScheduleController extends Controller
             $end_time = $start_time->copy()->addHours(3);
         }
         return $end_time;
+
+    }
+
+    //get available sections and faculties without registered course
+    public function getFacultySection(Request $request){
+
+            $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
+
+            $registeredSections = CourseTimeSchedule::where('course_id', $request->course_id)
+            ->pluck('section_id')
+            ->toArray();
+
+            $registeredFaculties = CourseTimeSchedule::where('course_id', $request->course_id)
+            ->pluck('faculty_id')
+            ->toArray();
+
+            $faculties = DB::table('faculties')
+                ->where('department_id',$dpt_id)
+                ->whereNotIn('id', $registeredFaculties)
+                ->where(function($query) {
+                    $query->where('rank', '<>', 'Teaching Assistant')
+                          ->orWhereNull('rank');
+                })
+                ->get();
+
+            $sections = DB::table('sections')
+                ->whereNotIn('id', $registeredSections)
+                ->orderBy('name','asc')
+                ->get();
+            
+
+            return response()->json([
+                'faculties' => $faculties,
+                'sections' => $sections
+            ]);
 
     }
     

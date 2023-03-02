@@ -38,6 +38,7 @@ Route::middleware('auth:admin')->group(function(){
         //Course Time schedule
         Route::get('/course-schedule/{name}',[CourseTimeScheduleController::class,'create'])->name('course_schedule');
         Route::post('/course-schedule',[CourseTimeScheduleController::class,'store'])->name('course_schedule.store');
+        Route::get('/reg-course-schedule/{name}',[CourseTimeScheduleController::class,'getFacultySection'])->name('reg.course');
 
     });
 
