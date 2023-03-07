@@ -30,4 +30,7 @@ trait Helper{
         $formattedNumber = $formatter->format($sem);
         return $formattedNumber;
     }
+    public function extractId($id){
+        return substr($id, 0, 2);
+    }
 }

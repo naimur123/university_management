@@ -125,17 +125,7 @@ class CourseTimeScheduleController extends Controller
 
     //get available sections and faculties without registered course
     public function getFacultySection(Request $request){
-
-            // $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
-
-            // $registeredSections = CourseTimeSchedule::where('course_id', $request->course_id)
-            // ->pluck('section_id')
-            // ->toArray();
-
-            // $registeredFaculties = CourseTimeSchedule::where('course_id', $request->course_id)
-            // ->pluck('faculty_id')
-            // ->toArray();
-
+        
             $faculties = DB::table('faculties')
                 ->where('department_id',$request->dpt_id)
                 ->whereNotIn('id', function($query) use ($request){

@@ -17,6 +17,9 @@ class Authenticate extends Middleware
         if( in_array("auth:admin", $request->route()->computedMiddleware) ){
             return route('admin.login');
         }
+        if( in_array("auth:user", $request->route()->computedMiddleware) ){
+            return route('student.login');
+        }
         if (! $request->expectsJson()) {
             return route('login');
         }

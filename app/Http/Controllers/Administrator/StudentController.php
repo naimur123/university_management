@@ -31,7 +31,7 @@ class StudentController extends Controller
     //GetModel
     private function getModel(){
         return new User();
-   }
+    }
 
    //show student list
    public function index(Request $request){  

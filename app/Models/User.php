@@ -8,24 +8,26 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
     use HasFactory;
     use HasUuids;
     use Notifiable;
     protected $primaryKey = 'id';
+
     public function department()
     {
         return $this->belongsTo(Department::class,'department_id');
     }
-
     public function addedBy(){
         return $this->belongsTo(Administrator::class,'added_by');
     }
     public function updatedBy(){
         return $this->belongsTo(Administrator::class,'updated_by');
     }
+
     protected static function boot()
     {
         parent::boot();

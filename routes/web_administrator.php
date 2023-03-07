@@ -5,6 +5,7 @@ use App\Http\Controllers\Administrator\CourseController;
 use App\Http\Controllers\Administrator\CourseTimeScheduleController;
 use App\Http\Controllers\Administrator\FacultyController;
 use App\Http\Controllers\Administrator\StudentController;
+use App\Http\Controllers\Administrator\StudentRegistrationTimeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -40,6 +41,12 @@ Route::middleware('auth:admin')->group(function(){
         Route::post('/course-schedule',[CourseTimeScheduleController::class,'store'])->name('course_schedule.store');
         Route::get('/reg-course-schedule/{name}',[CourseTimeScheduleController::class,'getFacultySection'])->name('reg.course');
 
+        //Student Registration Time
+        Route::get('/student-registration-time',[StudentRegistrationTimeController::class,'create'])->name('student.reg.time');
+        Route::post('/student-registration-time',[StudentRegistrationTimeController::class,'store'])->name('student.reg.time.store');
+
     });
 
 });
+
+// require('web.php');
