@@ -8,12 +8,14 @@ use App\Models\CourseTimeSchedule;
 use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\Section;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class CourseTimeScheduleController extends Controller
@@ -25,6 +27,7 @@ class CourseTimeScheduleController extends Controller
 
     //create 
     public function create(Request $request){
+        Debugbar::enable();
         $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
 
 
@@ -48,18 +51,26 @@ class CourseTimeScheduleController extends Controller
         }
 
         $params = [
-            "title"       =>   "Course Time Schedule",
-            "form_url"    =>   route('admin.course_schedule.store'),
-            "courses"     =>   Course::where("department_id", $dpt_id)->get(),
-            "days"        =>   $days,
-            "session"    =>    $session,
-            "dataUrl"    =>    route('admin.reg.course',$request->name)
+            "title"       =>    "Course Time Schedule",
+            "form_url"    =>    route('admin.course_schedule.store'),
+            "courses"     =>    Course::where("department_id", $dpt_id)->get(),
+            "days"        =>    $days,
+            "session"     =>    $session,
+            "dataUrl"     =>    route('admin.reg.course',$request->name),
+            "dpt_id"      =>    $dpt_id
         ];
         return view('administrator.courseschedule.create',$params);
     }
 
     //store course time schedule
     public function store(Request $request){
+        $validate = [
+            "day"   =>  'required|string',
+        ];
+        Validator::make($request->all(), $validate,[
+            "day.required" => "Error! At least One day is required"
+
+        ])->validate();
 
         try{
             DB::beginTransaction();
@@ -115,19 +126,23 @@ class CourseTimeScheduleController extends Controller
     //get available sections and faculties without registered course
     public function getFacultySection(Request $request){
 
-            $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
+            // $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
 
-            $registeredSections = CourseTimeSchedule::where('course_id', $request->course_id)
-            ->pluck('section_id')
-            ->toArray();
+            // $registeredSections = CourseTimeSchedule::where('course_id', $request->course_id)
+            // ->pluck('section_id')
+            // ->toArray();
 
-            $registeredFaculties = CourseTimeSchedule::where('course_id', $request->course_id)
-            ->pluck('faculty_id')
-            ->toArray();
+            // $registeredFaculties = CourseTimeSchedule::where('course_id', $request->course_id)
+            // ->pluck('faculty_id')
+            // ->toArray();
 
             $faculties = DB::table('faculties')
-                ->where('department_id',$dpt_id)
-                ->whereNotIn('id', $registeredFaculties)
+                ->where('department_id',$request->dpt_id)
+                ->whereNotIn('id', function($query) use ($request){
+                    $query->select('faculty_id')
+                          ->from('course_time_schedules')
+                          ->where('course_id', $request->course_id);
+                })
                 ->where(function($query) {
                     $query->where('rank', '<>', 'Teaching Assistant')
                           ->orWhereNull('rank');
@@ -135,9 +150,13 @@ class CourseTimeScheduleController extends Controller
                 ->get();
 
             $sections = DB::table('sections')
-                ->whereNotIn('id', $registeredSections)
-                ->orderBy('name','asc')
-                ->get();
+                        ->whereNotIn('id', function($query) use ($request) {
+                            $query->select('section_id')
+                                ->from('course_time_schedules')
+                                ->where('course_id', $request->course_id);
+                        })
+                        ->orderBy('name', 'asc')
+                        ->get();
             
 
             return response()->json([

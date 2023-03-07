@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administrator;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Department;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -50,10 +51,12 @@ class CourseController extends Controller
     }
 
     protected function getDataTable($request){
+        Debugbar::enable();
         if ($request->ajax()) {
-            $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
+            // $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
             $data = $this->getModel()
-                         ->where('department_id',$dpt_id)
+                         ->join('departments','departments.id','=','courses.department_id')
+                         ->where('departments.curriculum_short_name',$request->name)
                          ->get();
           
             return DataTables::of($data)->addIndexColumn()

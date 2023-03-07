@@ -49,11 +49,14 @@
                                 @foreach($days as $day)
                                     {{-- <option value="{{ $day }}" {{ old('day') && is_array( old('day') ) && in_array($day, old('day')) ? 'selected' : ( isset($data->day) && is_array($data->day) && in_array($day, $data->day) ? "selected" : Null ) }} >{{ $day }}</option> --}}
                                     <label>
-                                        <input type="checkbox" class="advisor_type" name="day[]" value="{{ $day }}" {{ isset($data->day) && in_array($day, $data->day) ? 'checked' : Null }} >
+                                        <input type="checkbox" name="day[]" value="{{ $day }}" {{ isset($data->day) && in_array($day, $data->day) ? 'checked' : Null }} >
                                         {{ $day }}
                                     </label>
                                 @endforeach
-                            </select>
+                                <br>
+                                @error('day')
+                                 <strong class="text-danger">{{ $message }}</strong>
+                                @enderror
                         </div>
                     </div>
 
@@ -101,11 +104,13 @@
     $(document).ready(function() {
         $('#course_id').on('change', function () {
             var courseId = this.value;
-            console.log('{{ $dataUrl }} ?course_id='+ courseId)
+            var dpt_id = {!! json_encode($dpt_id) !!};
+            // console.log('{{ $dataUrl }} ?course_id='+ courseId)
+            // console.log('{{ $dataUrl }} ?dpt_id='+ dpt_id + 'course_id='+ courseId)
             $('#faculty_id').html('');
             $('#section_id').html('');
             $.ajax({
-                url: '{{ $dataUrl }} ?course_id='+ courseId,
+                url: '{{ $dataUrl }} ?dpt_id='+ dpt_id + '&course_id='+ courseId,
                 type: 'GET',
                 success: function(response) {
                     if(response){

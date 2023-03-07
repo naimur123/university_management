@@ -1,5 +1,3 @@
-$(document).ready(function() {
-    $('#example-multiple-selected').multiselect();
-});
-
-  
+// $(document).ready(function() {
+//     $('#example-multiple-selected').multiselect();
+// });

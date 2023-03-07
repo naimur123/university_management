@@ -1,5 +1,6 @@
 <body>
     {{-- {!! Toastr::message() !!} --}}
+    {{-- <div class="loading-skeleton" style="width: 100%; height: 200px;"></div> --}}
     <div class="container-fluid" id="app"> 
         
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" id="topbar">

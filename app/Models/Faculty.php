@@ -13,6 +13,19 @@ class Faculty extends Authenticatable
     use HasFactory;
     use HasUuids;
     protected $primaryKey = 'id';
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class,'department_id');
+    }
+
+    public function addedBy(){
+        return $this->belongsTo(Administrator::class,'added_by');
+    }
+    public function updatedBy(){
+        return $this->belongsTo(Administrator::class,'updated_by');
+    }
+    
     protected static function boot()
     {
         parent::boot();
@@ -34,4 +47,6 @@ class Faculty extends Authenticatable
         $increment_number = mt_rand(00000,99999);
         return sprintf('%04d-%05d-%s', $year, $increment_number, $date);
     }
+
+
 }

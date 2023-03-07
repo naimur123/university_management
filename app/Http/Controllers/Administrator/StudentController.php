@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\User;
 use App\Notifications\WelcomeNewStudentNotification;
+use Barryvdh\Debugbar\Facades\Debugbar as FacadesDebugbar;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+
 
 class StudentController extends Controller
 {
@@ -23,7 +25,7 @@ class StudentController extends Controller
 
     // Get DataTable Column List
     private function getDataTableColumns(){
-        $columns = ['index', 'user_id', 'first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department_name','is_graduated','admin_name', 'updated_by','action' ];
+        $columns = ['index', 'user_id', 'first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department_name','is_graduated','added_by', 'updated_by','action' ];
         return $columns;
     }
     //GetModel
@@ -32,7 +34,8 @@ class StudentController extends Controller
    }
 
    //show student list
-   public function index(Request $request){       
+   public function index(Request $request){  
+    // FacadesDebugbar::enable();
     if( $request->ajax() ){
         return $this->getDataTable($request);
     }
@@ -118,14 +121,21 @@ class StudentController extends Controller
 
     protected function getDataTable($request){
         if ($request->ajax()) {
-            $dpt_id = Department::where('curriculum_short_name',$request->name)->pluck('id');
+            // $dpt_id = Department::where('curriculum_short_name',$request->name)->pluck('id');
+            // $data = $this->getModel()
+            //              ->where('department_id',$dpt_id)
+            //              ->select('users.*', 'administrators.first_name as admin_name', 'updated.first_name as updated_by', 'departments.name as department_name')
+            //              ->orderBy('created_at', 'DESC')
+            //              ->join('administrators', 'administrators.id', '=', 'users.added_by')
+            //              ->leftJoin('administrators as updated', 'updated.id', '=', 'users.updated_by')
+            //              ->join('departments', 'departments.id', '=', 'users.department_id')
+            //              ->get();
             $data = $this->getModel()
-                         ->where('department_id',$dpt_id)
-                         ->select('users.*', 'administrators.first_name as admin_name', 'updated.first_name as updated_by', 'departments.name as department_name')
-                         ->orderBy('created_at', 'DESC')
-                         ->join('administrators', 'administrators.id', '=', 'users.added_by')
-                         ->leftJoin('administrators as updated', 'updated.id', '=', 'users.updated_by')
                          ->join('departments', 'departments.id', '=', 'users.department_id')
+                         ->where('departments.curriculum_short_name', $request->name)
+                         ->with('addedBy')
+                         ->with('updatedBy')
+                         ->with('department')
                          ->get();
             
             
@@ -135,6 +145,9 @@ class StudentController extends Controller
                 ->addColumn('sex', function($row){ return $this->getSex($row->sex); })
                 ->addColumn('maritalstatus', function($row){ return Str::ucfirst($row->maritalstatus); })
                 ->addColumn('is_graduated',function($row){ return $row->is_graduated == 0 ? "Undergraduate" : "Graduated" ;})
+                ->addColumn('added_by', function($row){ return $row->addedBy->first_name ?? "N/A"; })
+                ->addColumn('updated_by', function($row){ return $row->updatedBy->first_name ?? "N/A"; })
+                ->addColumn('department_name', function($row){ return $row->department->name; })
                 ->addColumn('action', function($row){
                     $btn = '<a href="" class="btn btn-primary btn-sm">Edit</a>';
                     return $btn;

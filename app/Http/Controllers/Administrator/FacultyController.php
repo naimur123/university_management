@@ -25,7 +25,7 @@ class FacultyController extends Controller
 
     // Get DataTable Column List
     private function getDataTableColumns(){
-        $columns = ['index', 'user_id', 'rank', 'first_name', 'last_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department_name','admin_name', 'updated_by','action' ];
+        $columns = ['index', 'user_id', 'rank', 'first_name', 'last_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department_name','added_by', 'updated_by','action' ];
         return $columns;
     }
 
@@ -134,18 +134,26 @@ class FacultyController extends Controller
 
     protected function getDataTable($request){
         if ($request->ajax()) {
+            // $data= $this->getModel()
+            //             ->select('faculties.*', 'administrators.first_name as admin_name', 'updated.first_name as updated_by')
+            //             ->orderBy('created_at', 'DESC')
+            //             ->join('administrators', 'administrators.id', '=', 'faculties.added_by')
+            //             ->leftJoin('administrators as updated', 'updated.id', '=', 'faculties.updated_by')
+            //             ->with('department')
+            //             ->get();
             $data= $this->getModel()
-                        ->select('faculties.*', 'administrators.first_name as admin_name', 'updated.first_name as updated_by', 'departments.name as department_name')
-                        ->orderBy('created_at', 'DESC')
-                        ->join('administrators', 'administrators.id', '=', 'faculties.added_by')
-                        ->leftJoin('administrators as updated', 'updated.id', '=', 'faculties.updated_by')
-                        ->join('departments', 'departments.id', '=', 'faculties.department_id')
+                        ->with('addedBy')
+                        ->with('updatedBy')
+                        ->with('department')
                         ->get();
-          
+            
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('index', function(){ return ++$this->index; })
                 ->addColumn('sex', function($row){ return $this->getSex($row->sex); })
                 ->addColumn('maritalstatus', function($row){ return Str::ucfirst($row->maritalstatus); })
+                ->addColumn('added_by', function($row){ return $row->addedBy->first_name ?? "N/A"; })
+                ->addColumn('updated_by', function($row){ return $row->updatedBy->first_name ?? "N/A"; })
+                ->addColumn('department_name', function($row){ return $row->department->name; })
                 ->addColumn('action', function($row){
                     $btn = '<a href="'.route('admin.faculty.edit',['id' => $row->id]).'" class="btn btn-primary btn-sm">Edit</a>';
                     return $btn;
