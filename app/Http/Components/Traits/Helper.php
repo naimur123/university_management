@@ -31,6 +31,6 @@ trait Helper{
         return $formattedNumber;
     }
     public function extractId($id){
-        return substr($id, 0, 2);
+        return substr($id, 0, 3) . substr($id,9);
     }
 }

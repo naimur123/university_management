@@ -27,7 +27,7 @@ class CourseTimeScheduleController extends Controller
 
     //create 
     public function create(Request $request){
-        Debugbar::enable();
+
         $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
 
 
@@ -65,7 +65,7 @@ class CourseTimeScheduleController extends Controller
     //store course time schedule
     public function store(Request $request){
         $validate = [
-            "day"   =>  'required|string',
+            "day"   =>  'required|array',
         ];
         Validator::make($request->all(), $validate,[
             "day.required" => "Error! At least One day is required"

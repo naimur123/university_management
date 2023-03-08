@@ -28,7 +28,10 @@ return [
     "prereq"      => "Pre requsite",
     "credit"      => "Course Credit",
     "sem"         => "Semester",
-    'is_graduated' => "Graduated"
+    "is_graduated" => "Graduated",
+    "program"     => "Program",
+    "credit"      => "Credit Completed",
+    "cgpa"        => "CGPA"
 
 
     

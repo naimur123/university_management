@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Models\StudentRegistrationTime;
 use App\Providers\RouteServiceProvider;
 use Brian2694\Toastr\Facades\Toastr;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -76,9 +77,11 @@ class StudentLoginController extends Controller
 
     public function dashboard(Request $request)
     {
-        // $id = $this->extractId($request->user()->user_id);
+        $now = Carbon::now()->toDateString();
+        // $date = StudentRegistrationTime::where('start_date',$now)->get();
+        // return StudentRegistrationTime::where();
         $params = [
-            "registrationTime" => StudentRegistrationTime::first(),
+            "registrationTime" => StudentRegistrationTime::where('start_date',$now)->value('start_date'),
             // "id"               => $this->extractId($request->user()->user_id)
         ];
     

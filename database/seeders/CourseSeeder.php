@@ -17,7 +17,7 @@ class CourseSeeder extends Seeder
      */
     public function run()
     {
-        $department = Department::first();
+        $department = Department::where('curriculum_short_name','cse')->value('id');
         DB::table('courses')->insert([
             [
                 "id"    => Str::uuid(),
@@ -26,7 +26,7 @@ class CourseSeeder extends Seeder
                 "prereq"      =>"N/A",
                 "credit"      => 3,
                 "sem"      => 1,
-                "department_id"      => $department->id,
+                "department_id"      => $department,
             ],
             [
                 "id"    => Str::uuid(),
@@ -35,7 +35,7 @@ class CourseSeeder extends Seeder
                 "prereq"      =>"N/A",
                 "credit"      => 3,
                 "sem"      => 1,
-                "department_id"      => $department->id,
+                "department_id"      => $department,
             ],
             [
                 "id"    => Str::uuid(),
@@ -44,7 +44,7 @@ class CourseSeeder extends Seeder
                 "prereq"      =>"N/A",
                 "credit"      => 1,
                 "sem"      => 1,
-                "department_id"      => $department->id,
+                "department_id"      => $department,
             ],
             [
                 "id"    => Str::uuid(),
@@ -53,7 +53,7 @@ class CourseSeeder extends Seeder
                 "prereq"      =>"N/A",
                 "credit"      => 3,
                 "sem"      => 1,
-                "department_id"      => $department->id,
+                "department_id"      => $department,
             ],
             [
                 "id"    => Str::uuid(),
@@ -62,7 +62,7 @@ class CourseSeeder extends Seeder
                 "prereq"      =>"N/A",
                 "credit"      => 1,
                 "sem"      => 1,
-                "department_id"      => $department->id,
+                "department_id"      => $department,
             ],
             [
                 "id"    => Str::uuid(),
@@ -71,7 +71,7 @@ class CourseSeeder extends Seeder
                 "prereq"      =>"N/A",
                 "credit"      => 1,
                 "sem"      => 1,
-                "department_id"      => $department->id,
+                "department_id"      => $department,
             ],
             [
                 "id"    => Str::uuid(),
@@ -80,7 +80,7 @@ class CourseSeeder extends Seeder
                 "prereq"      =>"N/A",
                 "credit"      => 1,
                 "sem"      => 1,
-                "department_id"      => $department->id,
+                "department_id"      => $department,
             ],
             
 

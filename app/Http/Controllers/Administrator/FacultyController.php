@@ -44,7 +44,7 @@ class FacultyController extends Controller
             'subNav'            => 'faculty.list',
             'tableColumns'      => $this->getColumns(),
             'dataTableColumns'  => $this->getDataTableColumns(),
-            'dataTableUrl'      => Null,
+            'dataTableUrl'      => URL::current(),
             'create'            => route('admin.assign_faculty'),
             'pageTitle'         => 'Faculty List',
             'tableStyleClass'   => 'bg-success',

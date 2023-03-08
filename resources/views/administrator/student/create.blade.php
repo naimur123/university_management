@@ -12,6 +12,7 @@
                         <div class="col-12 mt-10">
                             <h3>Student {{ $title ?? "" }}</h3>
                             <input type="hidden" name="id" value="{{ $data->id ?? 0 }}">
+                            <input type="hidden" name="name" value="{{ $data->program ?? $name }}">
                             <hr/>
                         </div>
     

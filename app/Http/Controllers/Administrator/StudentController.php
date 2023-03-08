@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
@@ -19,13 +20,13 @@ class StudentController extends Controller
 {
     // Get Table Column List
     private function getColumns(){
-        $columns = ['#', 'user_id','first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department', 'is_graduated', 'added_by', 'updated_by', 'action'];
+        $columns = ['#', 'user_id', 'first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department', 'program', 'credit', 'cgpa', 'is_graduated', 'added_by', 'updated_by', 'action'];
         return $columns;
     }
 
     // Get DataTable Column List
     private function getDataTableColumns(){
-        $columns = ['index', 'user_id', 'first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department_name','is_graduated','added_by', 'updated_by','action' ];
+        $columns = ['index', 'user_id', 'first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion', 'maritalstatus', 'department_name', 'program', 'credit', 'cgpa','is_graduated','added_by', 'updated_by','action' ];
         return $columns;
     }
     //GetModel
@@ -35,7 +36,6 @@ class StudentController extends Controller
 
    //show student list
    public function index(Request $request){  
-    // FacadesDebugbar::enable();
     if( $request->ajax() ){
         return $this->getDataTable($request);
     }
@@ -44,7 +44,7 @@ class StudentController extends Controller
         'subNav'            => 'student.list',
         'tableColumns'      => $this->getColumns(),
         'dataTableColumns'  => $this->getDataTableColumns(),
-        'dataTableUrl'      => Null,
+        "dataTableUrl"           => URL::current(),
         'create'            => route('admin.assign_student',['name' => $request->name]),
         'pageTitle'         => $request->name.'Student List',
         'tableStyleClass'   => 'bg-success',
@@ -56,8 +56,10 @@ class StudentController extends Controller
    //create new student
    public function create(Request $request){
         $params = [
-            "title"       =>   "Assign",
+
+            "title"       => "Assign",
             "form_url"    => route('admin.student.store'),
+            "name"        => $request->name,
             "department"  => Department::where('curriculum_short_name',$request->name)->get()
 
         ];
@@ -96,6 +98,9 @@ class StudentController extends Controller
         $data->sex = $request->sex;
         $data->nationality = $request->nationality;
         $data->religion = $request->religion;
+        $data->program  = $request->name;
+        $data->cgpa  = $request->cgpa ?? 0;
+        $data->credit  = $request->credit ?? 0;
         $data->maritalstatus = $request->maritalstatus;
         $data->department_id = $request->department_id;
         $data->password = bcrypt($random);
@@ -119,6 +124,20 @@ class StudentController extends Controller
    
     }
 
+    //update student
+    public function edit(Request $request){
+        $params = [
+              "title"       => "Edit",
+              "form_url"    => route('admin.student.store'),
+              "data"        => $this->getModel()->find($request->id),
+              "name"        => $request->name,
+              "department"  => Department::where('curriculum_short_name',$request->name)->get()
+
+        ];
+        return view('administrator.student.create',$params);
+       
+    }
+
     protected function getDataTable($request){
         if ($request->ajax()) {
             // $dpt_id = Department::where('curriculum_short_name',$request->name)->pluck('id');
@@ -131,14 +150,13 @@ class StudentController extends Controller
             //              ->join('departments', 'departments.id', '=', 'users.department_id')
             //              ->get();
             $data = $this->getModel()
+                         ->select('users.*')
                          ->join('departments', 'departments.id', '=', 'users.department_id')
                          ->where('departments.curriculum_short_name', $request->name)
                          ->with('addedBy')
                          ->with('updatedBy')
                          ->with('department')
                          ->get();
-            
-            
                 
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('index', function(){ return ++$this->index; })
@@ -149,7 +167,7 @@ class StudentController extends Controller
                 ->addColumn('updated_by', function($row){ return $row->updatedBy->first_name ?? "N/A"; })
                 ->addColumn('department_name', function($row){ return $row->department->name; })
                 ->addColumn('action', function($row){
-                    $btn = '<a href="" class="btn btn-primary btn-sm">Edit</a>';
+                    $btn = '<a href="'.route('admin.student.edit',['name'=>$row->department->curriculum_short_name,'id' => $row->id]).'" class="btn btn-primary btn-sm">Edit</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

@@ -33,6 +33,7 @@ Route::middleware('auth:admin')->group(function(){
         //student
         Route::get('/sudent-list/{name}',[StudentController::class,'index'])->name('student.list');
         Route::get('/assign_student/{name}',[StudentController::class,'create'])->name('assign_student');
+        Route::get('/student/edit/{name}/{id}',[StudentController::class,'edit'])->name('student.edit');
         Route::post('/assign_studnet',[StudentController::class,'store'])->name('student.store');
         // Route::get('/assign_studnet/{id}',[FacultyController::class,'edit'])->name('assign_faculty.edit');
 

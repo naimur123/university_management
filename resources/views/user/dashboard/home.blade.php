@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-body">
                     
-                    @if(\Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($registrationTime->date)) <= 7)
+                    @if(\Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($registrationTime)) <= 7)
                     <div class="d-flex justify-content-center">
                         <a class="btn btn-primary" href="{{ route('student.course.registration') }}" role="button">Go to Registration</a>
                     </div>
