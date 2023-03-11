@@ -27,6 +27,12 @@ class User extends Authenticatable
     public function updatedBy(){
         return $this->belongsTo(Administrator::class,'updated_by');
     }
+    public function courses(){
+        return $this->belongsToMany(Course::class);
+    }
+    public function sections(){
+        return $this->belongsToMany(Section::class);
+    }
 
     protected static function boot()
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Department;
 use App\Models\StudentRegistrationTime;
 use App\Providers\RouteServiceProvider;
@@ -78,23 +79,15 @@ class StudentLoginController extends Controller
     public function dashboard(Request $request)
     {
         $now = Carbon::now()->toDateString();
-        // $date = StudentRegistrationTime::where('start_date',$now)->get();
-        // return StudentRegistrationTime::where();
         $params = [
             "registrationTime" => StudentRegistrationTime::where('start_date',$now)->value('start_date'),
-            // "id"               => $this->extractId($request->user()->user_id)
+            'courses'          => Course::where('')
         ];
     
         return view('user.dashboard.home',$params);
     }
 
     public function logout(){
-        
-        // return redirect($this->logout) ?: redirect()->back();
-        
         return Auth::guard('user')->logout() ?: redirect()->back();
-       
-        // return redirect($this->logout);
-        
     }
 }

@@ -140,6 +140,7 @@ class CourseTimeScheduleController extends Controller
                 ->get();
 
             $sections = DB::table('sections')
+                        ->where('reserved', false)
                         ->whereNotIn('id', function($query) use ($request) {
                             $query->select('section_id')
                                 ->from('course_time_schedules')
