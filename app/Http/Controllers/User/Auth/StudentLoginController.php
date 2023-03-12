@@ -77,13 +77,13 @@ class StudentLoginController extends Controller
     }
 
     public function dashboard(Request $request)
-    {
-        $now = Carbon::now()->toDateString();
+    {    
         $params = [
-            "registrationTime" => StudentRegistrationTime::where('start_date',$now)->value('start_date'),
-            'courses'          => Course::where('')
+            "now" => Carbon::now()->toDateString(),
+            "start_date" => Carbon::parse(StudentRegistrationTime::min('start_date'))->toDateString(),
+            "end_date" => Carbon::parse(StudentRegistrationTime::max('end_date'))->toDateString(),
+          
         ];
-    
         return view('user.dashboard.home',$params);
     }
 

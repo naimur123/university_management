@@ -35,4 +35,10 @@ trait Helper{
         $intid = str_replace('-', '', $getsubtractid);
         return intval($intid);
     }
+    public function stringId($id){
+        $first_part = substr($id, 0, 2); // Get the first two characters (i.e., "23")
+        $second_part = substr($id, 9); // Get the characters from index 3 to 7 (i.e., "00001") and convert to integer
+        $new_id = $first_part . '-' . $second_part; // Concatenate with a hyphen to get "23-1"
+        return $new_id;
+    }
 }

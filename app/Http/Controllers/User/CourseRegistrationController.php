@@ -18,11 +18,16 @@ class CourseRegistrationController extends Controller
     // }
     public function index(Request $request){
         $now = Carbon::now()->toDateString();
+        
+
+        $id = $this->stringId($request->user()->user_id);
         $params = [
-            "registrationTime" => StudentRegistrationTime::where('start_date',$now)->get(),
+            "registrationTime" =>StudentRegistrationTime::where('from',$id)->orWhere('to',$id)->get(),
             "id"               => $this->extractId($request->user()->user_id),
             "courses"          => Course::with('courseTimeSchedule')->where('department_id', $request->user()->department_id)->get()
         ];
+
+        // dd($params);
         return view('user.courseregistration.start',$params);
 
     }
