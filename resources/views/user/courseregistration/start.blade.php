@@ -9,8 +9,10 @@
             <div class="card-body">
                 @forelse ($registrationTime as $regTime)
                     @if( intval(str_replace('-', '', $regTime->from)) <= $id && intval(str_replace('-', '', $regTime->to)) >= $id)
+                    <form action="{{ $form_url }}" class="row form-horizontal" method="POST" enctype="multipart/form-data">
+                        @csrf
                         @foreach ($courses as $course)
-                            <input class="form-check-input" type="hidden" value="" id="defaultCheck1" name="course_id[]" value="{{ $course->id}}">
+                            <input class="form-check-input" type="hidden" id="defaultCheck1" name="course_id[]" value="{{ $course->id }}">
                             <label class="form-check-label" for="defaultCheck1">
                                 <b>{{ $course->course_name }}</b>
                                 @if ($course->credit == 3)
@@ -24,8 +26,8 @@
                                     <div class="col-md-6">
                                         <ul class="list-unstyled">
                                             <li>
-                                                <input type="checkbox" id="section" name="section[]" value="{{ $schedule->section->id }}" />
-                                                <label for="section">{{ $schedule->section->name }}</label>
+                                                <input type="checkbox" id="schedule" name="course_schedule_id[]" value="{{ $schedule->id }}" />
+                                                <label for="schedule">{{ $schedule->section->name }}</label>
                                                 <b class="d-print-inline-block"></b>
                                                 @foreach ($schedule->day as $day)
                                                     <span class="d-print-inline-block">
@@ -38,6 +40,14 @@
                                 @endforeach
                             </div>
                         @endforeach
+                        
+                        <!--submit -->
+                        <div class="col-12 d-flex justify-content-center py-4">
+                            <div class="form-group text-right">
+                                <button type="submit" class="btn btn-info"><strong>Confirm</strong></button>
+                            </div>
+                        </div>
+                    </form>
                     @endif
                 @empty
                 
@@ -52,4 +62,6 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+</script>
 @endsection

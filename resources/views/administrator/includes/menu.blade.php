@@ -1,6 +1,7 @@
 <body>
-    {{-- {!! Toastr::message() !!} --}}
-    {{-- <div class="loading-skeleton" style="width: 100%; height: 200px;"></div> --}}
+    <div id="loading">
+        <img id="loading-image" src="{{ asset('load/loading.gif') }}" alt="Loading..." />
+    </div>
     <div class="container-fluid" id="app"> 
         
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" id="topbar">

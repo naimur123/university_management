@@ -6,29 +6,56 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseTimeSchedule;
 use App\Models\StudentRegistrationTime;
+use App\Models\StudentTakenCourse;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CourseRegistrationController extends Controller
 {
-    //GetModel
-    // private function getModel(){
-    //     return new User();
-    // }
+    // GetModel
+    private function getModel(){
+        return new StudentTakenCourse();
+    }
     public function index(Request $request){
-        $now = Carbon::now()->toDateString();
+        // $now = Carbon::now()->toDateString();
         
 
         $id = $this->stringId($request->user()->user_id);
         $params = [
             "registrationTime" =>StudentRegistrationTime::where('from',$id)->orWhere('to',$id)->get(),
             "id"               => $this->extractId($request->user()->user_id),
-            "courses"          => Course::with('courseTimeSchedule')->where('department_id', $request->user()->department_id)->get()
+            "courses"          => Course::with('courseTimeSchedule')->where('department_id', $request->user()->department_id)->get(),
+            "form_url"             => route('student.course.registration.store')
         ];
 
         // dd($params);
         return view('user.courseregistration.start',$params);
 
     }
+
+    public function store(Request $request){
+        // dd($request->all());
+        try{
+            foreach($request->course_schedule_id as $scheduleid){
+
+                $data = $this->getModel();
+                $data->id         =  Str::uuid();
+                $data->user_id    =  $request->user()->id;
+                $data->course_time_schedule_id = $scheduleid;
+                $data->save();
+                DB::commit();
+            }
+        }catch(Exception $e){
+            DB::rollBack();
+            return back()->with("error", $this->getError($e))->withInput();
+        }
+        
+        return back()->with("success","Course taken Successfully");
+    }
+            
+       
 }
