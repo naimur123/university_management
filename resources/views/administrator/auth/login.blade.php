@@ -48,18 +48,12 @@
                            
 
                             <div class="form-group">
-                                <label for="user_id">User ID</label>
-                                <input type="text" name="user_id"  id="user_id" class="form-control @error('user_id') is-invalid @enderror">
-
-                                {{-- @error('user_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror --}}
+                                <label for="user_id_or_email">Enter User ID or Email</label>
+                                <input type="text" name="user_id_or_email"  id="user_id_or_email" class="form-control @error('user_id_or_email') is-invalid @enderror">
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" id="password" class="form-control @error('user_id') is-invalid @enderror">
+                                <label for="password">Enter Password</label>
+                                <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror">
 
                                 {{-- @error('user_id')
                                     <span class="invalid-feedback" role="alert">
