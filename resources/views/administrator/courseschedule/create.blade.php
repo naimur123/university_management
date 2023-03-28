@@ -44,10 +44,8 @@
                     <!-- Course days -->
                     <div class="col-6 col-sm-6 col-md-4">
                         <div class="form-group">
-                            <label>Days<span class="text-danger">*</span></label>                                
-                            {{-- <select id="example-multiple-selected" class="form-control multi-select" multiple name="day[]"> --}}
+                            <label>Days<span class="text-danger">*</span></label><br>                                
                                 @foreach($days as $day)
-                                    {{-- <option value="{{ $day }}" {{ old('day') && is_array( old('day') ) && in_array($day, old('day')) ? 'selected' : ( isset($data->day) && is_array($data->day) && in_array($day, $data->day) ? "selected" : Null ) }} >{{ $day }}</option> --}}
                                     <label>
                                         <input type="checkbox" name="day[]" value="{{ $day }}" {{ isset($data->day) && in_array($day, $data->day) ? 'checked' : Null }} >
                                         {{ $day }}

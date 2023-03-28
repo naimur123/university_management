@@ -12,8 +12,8 @@
                     <form action="{{ $form_url }}" class="row form-horizontal" method="POST" enctype="multipart/form-data">
                         @csrf
                         @foreach ($courses as $course)
-                            <input class="form-check-input" type="hidden" id="defaultCheck1" name="course_id[]" value="{{ $course->id }}">
-                            <label class="form-check-label" for="defaultCheck1">
+                            {{-- <input class="form-check-input" type="hidden" id="defaultCheck1" name="course_id[]" value="{{ $course->id }}"> --}}
+                            <label class="form-check-label">
                                 <b>{{ $course->course_name }}</b>
                                 @if ($course->credit == 3)
                                     [Theory]

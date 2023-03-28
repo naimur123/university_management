@@ -17,10 +17,10 @@ class CourseTimeSchedule extends Model
     protected $casts=[
         'day' => "array"
     ];
-    // public function courses()
-    // {
-    //     return $this->belongsTo(Course::class);
-    // }
+    public function courses()
+    {
+        return $this->belongsTo(Course::class,'course_id');
+    }
     public function section(){
         return $this->belongsTo(Section::class);
     }

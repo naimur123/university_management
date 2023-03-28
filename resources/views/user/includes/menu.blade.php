@@ -2,7 +2,7 @@
     <div class="container-fluid" id="app"> 
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" id="topbar">
             <div class="container">
-                <a class="navbar-brand">
+                <a class="navbar-brand" href="{{ route('student.home') }}">
                     XYZ University 
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -13,7 +13,6 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
-                           
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::guard('user')->user()->first_name }}
@@ -25,7 +24,6 @@
                                     </a>
                                 </div>
                             </li>
-                       
                     </ul>
                 </div>
             </div>
@@ -35,7 +33,7 @@
           <div class="col-2">
                 <div class="sidebar">
                         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample" aria-expanded="false" aria-controls="multiCollapseExample">
-                        FACULTY</button>
+                        Academics</button>
                             <div class="collapse multi-collapse" id="multiCollapseExample">
                                 {{-- <a class="collapse-item text-decoration-none" href="{{ route('admin.assign_faculty') }}"><span class="material-icons">
                                     account_circle
@@ -46,7 +44,7 @@
                             </div>
 
                         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
-                            Department Of Computer Science</button>
+                            Grade Reports</button>
                             <div class="collapse multi-collapse" id="multiCollapseExample2">
                                 {{-- <a class="collapse-item text-decoration-none" href="{{ route('admin.course.list', ['name' => 'cse']) }}"><span class="material-icons">
                                     format_list_bulleted
@@ -64,14 +62,14 @@
                         
                             
                         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">
-                                Student Registration Time</button>
+                                Library</button>
                             <div class="collapse multi-collapse" id="multiCollapseExample3">
                                 {{-- <a class="collapse-item text-decoration-none" href="{{ route('admin.student.reg.time') }}"><span class="material-icons">
                                     hourglass_empty
                                     </span>Create</a> --}}
                             </div>
                         <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample4" aria-expanded="false" aria-controls="multiCollapseExample2">
-                                FACULTY2</button>
+                                Others</button>
                             <div class="collapse multi-collapse" id="multiCollapseExample4">
                                 <a class="collapse-item text-decoration-none" href="#">Action</a>
                                 <a class="collapse-item text-decoration-none" href="#">Another action</a>

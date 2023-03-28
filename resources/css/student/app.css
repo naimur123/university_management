@@ -42,8 +42,16 @@ body {
   border: 1px solid #ddd;
   margin: 5px 40px 10px 60px;
 }
-.card {
+/* .card {
   border: none;
+} */
+#regStart .card{
+  border: 1px solid #ddd;
+  margin: 5px 10px 5px 10px;
+}
+#registration .card{
+  border: 1px solid #ddd;
+  margin: 5px 10px 5px 10px;
 }
 
 /* --------------------------------------------------------------------------------

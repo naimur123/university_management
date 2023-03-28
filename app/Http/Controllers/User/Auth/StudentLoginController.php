@@ -4,8 +4,10 @@ namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\CourseTimeSchedule;
 use App\Models\Department;
 use App\Models\StudentRegistrationTime;
+use App\Models\StudentTakenCourse;
 use App\Providers\RouteServiceProvider;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
@@ -71,18 +73,28 @@ class StudentLoginController extends Controller
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            $this->username()   => 'required|string',
+            $this->username()   => 'required',
             'password'          => 'required|string|min:3',
         ]);
     }
 
     public function dashboard(Request $request)
     {    
+        // $reg_courses = StudentTakenCourse::where('user_id',$request->user()->id)->pluck('course_time_schedule_id')->toArray();
+        // $getCourse = CourseTimeSchedule::with('courses')->whereIn('id',$reg_courses)->get();
+        // $getCourse = CourseTimeSchedule::with('courses')
+        //                 ->join('student_taken_courses', 'course_time_schedules.id', '=', 'student_taken_courses.course_time_schedule_id')
+        //                 ->where('student_taken_courses.user_id', $request->user()->id)
+        //                 ->get(['course_time_schedules.*']);
+        // dd($getCourse);
         $params = [
             "now" => Carbon::now()->toDateString(),
             "start_date" => Carbon::parse(StudentRegistrationTime::min('start_date'))->toDateString(),
             "end_date" => Carbon::parse(StudentRegistrationTime::max('end_date'))->toDateString(),
-          
+            "getRegisteredCourses" => CourseTimeSchedule::with('courses')
+                                        ->join('student_taken_courses', 'course_time_schedules.id', '=', 'student_taken_courses.course_time_schedule_id')
+                                        ->where('student_taken_courses.user_id', $request->user()->id)
+                                        ->get(['course_time_schedules.*'])
         ];
         return view('user.dashboard.home',$params);
     }

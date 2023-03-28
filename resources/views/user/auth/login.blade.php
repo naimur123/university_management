@@ -48,12 +48,12 @@
                            
 
                             <div class="form-group">
-                                <label for="user_id">User ID</label>
-                                <input type="text" name="user_id"  id="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                                <label for="user_id_or_email">User ID</label>
+                                <input type="text" name="user_id_or_email"  id="user_id_or_email" class="form-control @error('user_id_email') is-invalid @enderror">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" id="password" class="form-control @error('user_id') is-invalid @enderror">
+                                <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror">
                             </div>
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="submit" class="btn btn-primary btn-block ">Login</button>

@@ -28,34 +28,13 @@ class CourseTimeScheduleController extends Controller
     //create 
     public function create(Request $request){
 
-        $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');
-
-
-        //Days get
-        $days = [];
-        $now = Carbon::now()->startOfWeek(Carbon::SUNDAY);
-        for ($i = 0; $i < 7; $i++) {
-            $day = $now->copy()->addDays($i)->format('l');
-            if ($day !== 'Friday') {
-                $days[] = $day;
-            }
-        }
-    
-        //semeseter add
-        $year = Carbon::now()->year;
-        $month = Carbon::now()->month;
-        if ($month >= 1 && $month <= 6) {
-            $session = 'Summer'.'-'. $year;
-        } else {
-            $session = 'Fall'.'-'. $year;
-        }
-
+        $dpt_id = Department::where('curriculum_short_name',$request->name)->value('id');    
         $params = [
             "title"       =>    "Course Time Schedule",
             "form_url"    =>    route('admin.course_schedule.store'),
             "courses"     =>    Course::where("department_id", $dpt_id)->get(),
-            "days"        =>    $days,
-            "session"     =>    $session,
+            "days"        =>    $this->daysGet(),
+            "session"     =>    $this->semAdd(),
             "dataUrl"     =>    route('admin.reg.course',$request->name),
             "dpt_id"      =>    $dpt_id
         ];
