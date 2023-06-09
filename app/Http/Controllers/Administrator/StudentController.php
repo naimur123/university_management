@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\User;
 use App\Notifications\WelcomeNewStudentNotification;
-use Barryvdh\Debugbar\Facades\Debugbar as FacadesDebugbar;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -46,6 +46,7 @@ class StudentController extends Controller
         'dataTableColumns'  => $this->getDataTableColumns(),
         "dataTableUrl"           => URL::current(),
         'create'            => route('admin.assign_student',['name' => $request->name]),
+        'report'            => route('admin.student.report',['name' => $request->name]),
         'pageTitle'         => $request->name.'Student List',
         'tableStyleClass'   => 'bg-success',
        
@@ -136,6 +137,16 @@ class StudentController extends Controller
         ];
         return view('administrator.student.create',$params);
        
+    }
+
+    //Report Download
+    public function report(Request $request){
+        $params = [
+            'downloads' => User::with('department')->get()
+        ];
+        
+        $pdf = Pdf::loadview('administrator.student.report',$params);
+        return $pdf->download('StudentList.pdf');
     }
 
     protected function getDataTable($request){

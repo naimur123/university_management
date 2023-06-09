@@ -36,6 +36,7 @@ Route::middleware('auth:admin')->group(function(){
         Route::get('/student/edit/{name}/{id}',[StudentController::class,'edit'])->name('student.edit');
         Route::post('/assign_studnet',[StudentController::class,'store'])->name('student.store');
         // Route::get('/assign_studnet/{id}',[FacultyController::class,'edit'])->name('assign_faculty.edit');
+        Route::get('/student-list/report/{name}',[StudentController::class,'report'])->name('student.report');
 
         //Course Time schedule
         Route::get('/course-schedule/{name}',[CourseTimeScheduleController::class,'create'])->name('course_schedule');

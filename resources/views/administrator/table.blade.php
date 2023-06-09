@@ -4,14 +4,22 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="{{ isset($create) ? 'col-10' : 'col-12' }}" >
+                <div class="{{ isset($create) && isset($report) ? 'col-8' : 'col-10' }}" >
                     <h5>{{ ucfirst( $pageTitle)  }}</h5>
                 </div>
-                @if( isset($create) && $create )
+                @if( isset($create) && isset($report) )
+                    <div class="col-2 text-right">
+                        <a class="ajax-click-page btn btn-primary btn-sm" href="{{ url($create) }}">Create new</a>
+                    </div>
+                    <div class="col-2 text-right">
+                        <a class="ajax-click-page btn btn-secondary btn-sm" href="{{ url($report) }}">Download</a>
+                    </div>
+                @else
                     <div class="col-2 text-right">
                         <a class="ajax-click-page btn btn-primary btn-sm" href="{{ url($create) }}">Create new</a>
                     </div>
                 @endif
+                
             </div>
             
         </div>
