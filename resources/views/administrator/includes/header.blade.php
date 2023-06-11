@@ -36,7 +36,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.2/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.2/datatables.min.js"></script>
    
-    
+
+    {{-- ionicon --}}
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss','resources/js/administrator/app.js','resources/css/administrator/app.css'])
+    @vite(['resources/sass/app.scss','resources/css/administrator/app.css','resources/js/administrator/app.js'])
 </head>

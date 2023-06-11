@@ -2,17 +2,24 @@
     <div id="loading">
         <img id="loading-image" src="{{ asset('load/loading.gif') }}" alt="Loading..." />
     </div>
+    <div class="navbar navbar-expand-md" id="sidebarNavbar">
+        <button class="navbar-toggler ml-auto" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle Sidebar">
+            <ion-icon name="reorder-four-outline"></ion-icon>
+        </button>
+    </div>
     <div class="container-fluid" id="app"> 
-        
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" id="topbar">
-            
             <div class="container">
                 <a class="navbar-brand">
                     XYZ University 
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <div class="navbar-toggler-group">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+              
+                    
+                </div>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     
@@ -37,7 +44,8 @@
                 </div>
             </div>
         </nav>
-
+        
+        
         <div class="row flex-nowrap">
           <div class="col-2">
                 <div class="sidebar">
@@ -87,4 +95,4 @@
             </div>
 
             <div class="col-10">
-                <div class="contents"
+                <div class="contents">

@@ -6,7 +6,7 @@ body {
     margin: 20px 40px 10px 60px;
 }
 .sidebar{
-    margin: auto auto auto 60px;   
+  margin: auto auto auto 60px;   
 }
 
 .sidebar .btn{
@@ -45,6 +45,53 @@ body {
 .card {
   border: none;
 }
+@media (max-width: 600px) {
+  .contents{
+    margin-top: 5%;
+    width: 122%;
+    margin-left: -70px;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -90%;
+    width: 60%;
+    background: #f1f2f4;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar .btn {
+    margin-top: 4px;
+    display: block;
+    text-align: left !important;
+    width: 85%;
+    border: none;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-color: #004ea2;
+    color: white;
+  }
+  
+  .collapse-item {
+    width: 85%;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #555;
+  }
+  
+  .sidebar.show {
+    left: -50px;
+    margin-top: 50px;
+    position: fixed;
+    height: 100%;
+    width: 60%;
+  }
+  
+}
 
 /* --------------------------------------------------------------------------------
     Datatable Design part
@@ -52,7 +99,6 @@ body {
 */ 
 .dataTables_wrapper .dataTables_filter input, .dataTables_wrapper .dataTables_length select {
     border:1px solid #ddd;
-    height:35px;
     border-radius: 5px;
     padding-left: 10px;
     margin-bottom: 10px;

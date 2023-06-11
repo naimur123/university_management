@@ -4,23 +4,23 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="{{ isset($create) && isset($report) ? 'col-8' : 'col-10' }}" >
-                    <h5>{{ ucfirst( $pageTitle)  }}</h5>
+                <div class="{{ isset($create) && isset($report) ? 'col-8' : 'col-10' }}">
+                  <h5>{{ ucfirst($pageTitle) }}</h5>
                 </div>
                 @if( isset($create) && isset($report) )
-                    <div class="col-2 text-right">
-                        <a class="ajax-click-page btn btn-primary btn-sm" href="{{ url($create) }}">Create new</a>
-                    </div>
-                    <div class="col-2 text-right">
-                        <a class="ajax-click-page btn btn-secondary btn-sm" href="{{ url($report) }}">Download</a>
-                    </div>
-                @else
-                    <div class="col-2 text-right">
-                        <a class="ajax-click-page btn btn-primary btn-sm" href="{{ url($create) }}">Create new</a>
-                    </div>
+                <div class="col-4 d-flex justify-content-end">
+                    <a class="ajax-click-page btn btn-primary btn-sm d-inline ms-1" href="{{ url($create) }}">Create new</a>
+                    <a class="ajax-click-page btn btn-secondary btn-sm d-inline ms-1" href="{{ url($report) }}">Download</a>
+                </div>
                 @endif
-                
-            </div>
+
+                @if( isset($create) && !isset($report) )
+                <div class="col-2 d-flex justify-content-end">
+                    <a class="ajax-click-page btn btn-primary btn-sm" href="{{ url($create) }}">Create new</a>
+                </div>
+                @endif
+              </div>
+              
             
         </div>
       <div class="card-body">
@@ -47,6 +47,7 @@
         table = $('#table').DataTable({
             processing: true,
             serverSide: true,
+            ordering: false,
             ajax: '{{ isset($dataTableUrl) && !empty($dataTableUrl) ? $dataTableUrl : URL::current() }}',
             columns: [
                 @foreach($dataTableColumns as $column)
@@ -54,13 +55,14 @@
                 @endforeach                
             ],
             "lengthMenu": [[10, 20, 50, 100, 500, 1000, -1], [10, 20, 50, 100, 500, 1000, "All"]],
-            
-           
+            "language": {
+                "lengthMenu": "_MENU_"
+            }
         });
     });
-    setInterval(function () {
-          $('#table').DataTable().ajax.reload();
-    }, 60000);
+    // setInterval(function () {
+    //       $('#table').DataTable().ajax.reload();
+    // }, 60000);
 
 
 </script>
