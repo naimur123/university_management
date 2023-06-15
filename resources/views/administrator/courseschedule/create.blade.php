@@ -114,7 +114,7 @@
                     if(response){
                         $.each(response.faculties, function (key, value) {
                             $('#faculty_id').append('<option value="' + value
-                                .id + '">' + value.first_name + '' + value.last_name + '</option>');
+                                .id + '">' + value.first_name + ' ' + value.last_name + '</option>');
                         });
                         $.each(response.sections, function (key, value) {
                             $('#section_id').append('<option value="' + value

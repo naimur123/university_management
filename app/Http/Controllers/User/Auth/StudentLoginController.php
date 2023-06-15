@@ -87,15 +87,17 @@ class StudentLoginController extends Controller
         //                 ->where('student_taken_courses.user_id', $request->user()->id)
         //                 ->get(['course_time_schedules.*']);
         // dd($getCourse);
+        $idF = $this->extractFirstTwo($request->user()->user_id);
+        $idL = $this->extractLastOne($request->user()->user_id);
         $params = [
-            "now" => Carbon::now()->toDateString(),
-            "start_date" => Carbon::parse(StudentRegistrationTime::min('start_date'))->toDateString(),
-            "end_date" => Carbon::parse(StudentRegistrationTime::max('end_date'))->toDateString(),
+            "today" => Carbon::now()->toDateString(),
+            "checkDate" => StudentRegistrationTime::where('from',$idF)->where('to',$idL)->get(),
             "getRegisteredCourses" => CourseTimeSchedule::with('courses')
                                         ->join('student_taken_courses', 'course_time_schedules.id', '=', 'student_taken_courses.course_time_schedule_id')
                                         ->where('student_taken_courses.user_id', $request->user()->id)
                                         ->get(['course_time_schedules.*'])
         ];
+        // dd($params);
         return view('user.dashboard.home',$params);
     }
 

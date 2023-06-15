@@ -6,11 +6,16 @@
             <div class="col-12 col-lg-12 mt-2 mb-2" id="regStart">
             <div class="card">
                     <div class="card-body">
-                        @if($start_date <= $now && $end_date >= $now)
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-danger" href="{{ route('student.course.registration') }}" role="button">Go to Registration</a>
-                            </div>
-                        @endif
+                        @foreach ($checkDate as $check)
+                            @if ($check->start_date <= $today && $check->end_date >= $today)
+                                <div class="d-flex justify-content-center">
+                                    <a class="btn btn-danger" href="{{ route('student.course.registration') }}" role="button">Go to Registration</a>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{-- @if($start_date <= $now && $end_date >= $now)
+                            
+                        @endif --}}
                     </div>
             </div>
         </div>

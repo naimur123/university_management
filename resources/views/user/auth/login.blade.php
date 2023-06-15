@@ -24,16 +24,21 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
+    <style>
+        .container{
+   
+        }
+    </style>
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/student/app.js','resources/css/student/app.css'])
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-header bg-primary text-white text-center">
-                       Student Login
+            <div class="col-md-4 offset-md-4">
+                <div class="card d-flex justify-content-center" style="top:55%">
+                    <div class="card-header text-black text-center border-2">
+                        <strong>Student Login</strong>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('student.login') }}">
@@ -41,22 +46,21 @@
                             @if ($errors->any())  
                                 <div class="alert alert-danger">
                                     @foreach ($errors->getMessages() as $error)
-                                        <strong>{!! nl2br(e( strip_tags($error[0]))) !!}</strong>
+                                        <strong>{!! nl2br(e(strip_tags($error[0]))) !!}</strong>
                                     @endforeach  
                                 </div>
                             @endif
-                           
-
+    
                             <div class="form-group">
                                 <label for="user_id_or_email">User ID</label>
-                                <input type="text" name="user_id_or_email"  id="user_id_or_email" class="form-control @error('user_id_email') is-invalid @enderror">
+                                <input type="text" name="user_id_or_email" id="user_id_or_email" class="form-control @error('user_id_email') is-invalid @enderror">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror">
                             </div>
                             <div class="d-flex justify-content-center mt-2">
-                                <button type="submit" class="btn btn-primary btn-block ">Login</button>
+                                <button type="submit" class="btn btn-primary btn-block">Login</button>
                             </div>
                         </form>
                     </div>
@@ -64,6 +68,7 @@
             </div>
         </div>
     </div>
+    
     {!! Toastr::message() !!}
     
 </body>

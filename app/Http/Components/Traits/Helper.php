@@ -36,6 +36,15 @@ trait Helper{
         $intid = str_replace('-', '', $getsubtractid);
         return intval($intid);
     }
+    //seperately extract id
+    public function extractFirstTwo($id){
+        $getsubtractid = substr($id, 0, 3);
+        return intval($getsubtractid);
+    } 
+    public function extractLastOne($id){
+        $getsubtractid = substr($id,9);
+        return intval($getsubtractid);
+    }
     public function stringId($id){
         $first_part = substr($id, 0, 2); 
         $second_part = substr($id, 9); 

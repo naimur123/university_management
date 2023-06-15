@@ -24,12 +24,15 @@ class CourseRegistrationController extends Controller
         // $now = Carbon::now()->toDateString();
         
 
-        $id = $this->stringId($request->user()->user_id);
+        $idF = $this->extractFirstTwo($request->user()->user_id);
+        $idL = $this->extractLastOne($request->user()->user_id);
         $params = [
-            "registrationTime" =>StudentRegistrationTime::where('from',$id)->orWhere('to',$id)->get(),
-            "id"               => $this->extractId($request->user()->user_id),
+            "today" => Carbon::now()->toDateString(),
+            "now"   => Carbon::now()->toTimeString(),
+            "registrationTime" => StudentRegistrationTime::where('from',$idF)->where('to',$idL)->get(),
             "courses"          => Course::with('courseTimeSchedule')->where('department_id', $request->user()->department_id)->get(),
-            "form_url"             => route('student.course.registration.store')
+            "takenCourses"    => StudentTakenCourse::with('course_time')->where('user_id',$request->user()->id)->get(),
+            "form_url"        => route('student.course.registration.store')
         ];
 
         // dd($params);
