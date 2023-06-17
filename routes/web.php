@@ -34,6 +34,9 @@ Route::middleware('auth:user')->group(function(){
         Route::get('course/registration',[CourseRegistrationController::class,'index'])->name('course.registration');
         Route::post('course/registration',[CourseRegistrationController::class,'store'])->name('course.registration.store');
 
+        //Registered course list
+        Route::get('registered/course',[CourseRegistrationController::class,'courseRegisteredList'])->name('course.registered.list');
+
     });
 
 });

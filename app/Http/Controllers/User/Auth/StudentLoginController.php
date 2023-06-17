@@ -80,18 +80,10 @@ class StudentLoginController extends Controller
 
     public function dashboard(Request $request)
     {    
-        // $reg_courses = StudentTakenCourse::where('user_id',$request->user()->id)->pluck('course_time_schedule_id')->toArray();
-        // $getCourse = CourseTimeSchedule::with('courses')->whereIn('id',$reg_courses)->get();
-        // $getCourse = CourseTimeSchedule::with('courses')
-        //                 ->join('student_taken_courses', 'course_time_schedules.id', '=', 'student_taken_courses.course_time_schedule_id')
-        //                 ->where('student_taken_courses.user_id', $request->user()->id)
-        //                 ->get(['course_time_schedules.*']);
-        // dd($getCourse);
-        $idF = $this->extractFirstTwo($request->user()->user_id);
-        $idL = $this->extractLastOne($request->user()->user_id);
+        $id = $this->extractId($request->user()->user_id);
         $params = [
             "today" => Carbon::now()->toDateString(),
-            "checkDate" => StudentRegistrationTime::where('from',$idF)->where('to',$idL)->get(),
+            "checkDate" => StudentRegistrationTime::where('from',$id)->orWhere('to',$id)->get(),
             "getRegisteredCourses" => CourseTimeSchedule::with('courses')
                                         ->join('student_taken_courses', 'course_time_schedules.id', '=', 'student_taken_courses.course_time_schedule_id')
                                         ->where('student_taken_courses.user_id', $request->user()->id)
