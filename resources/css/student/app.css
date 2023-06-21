@@ -92,6 +92,9 @@ body {
     background-color: #bd362f !important;
 }
 
+.toast-warning {
+  background-color: #eaae2c !important;
+}
 .multiselect-container label.radio {
 	padding-left: 20px !important;
 }

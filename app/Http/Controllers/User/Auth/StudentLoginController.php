@@ -81,13 +81,17 @@ class StudentLoginController extends Controller
     public function dashboard(Request $request)
     {    
         $id = $this->extractId($request->user()->user_id);
+        // dd($id);
+        // $check = StudentRegistrationTime::where('from',$id)->orWhereIn('to',$id)->get();
+        // dd($check);
         $params = [
             "today" => Carbon::now()->toDateString(),
             "checkDate" => StudentRegistrationTime::where('from',$id)->orWhere('to',$id)->get(),
-            "getRegisteredCourses" => CourseTimeSchedule::with('courses')
-                                        ->join('student_taken_courses', 'course_time_schedules.id', '=', 'student_taken_courses.course_time_schedule_id')
-                                        ->where('student_taken_courses.user_id', $request->user()->id)
-                                        ->get(['course_time_schedules.*'])
+            "getRegisteredCourses" => StudentTakenCourse::with('course_time.courses')->where('user_id', $request->user()->id)->get()
+            // "getRegisteredCourses" => CourseTimeSchedule::with('courses')
+            //                             ->join('student_taken_courses', 'course_time_schedules.id', '=', 'student_taken_courses.course_time_schedule_id')
+            //                             ->where('student_taken_courses.user_id', $request->user()->id)
+            //                             ->get(['course_time_schedules.*'])
         ];
         // dd($params);
         return view('user.dashboard.home',$params);

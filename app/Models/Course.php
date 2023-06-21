@@ -15,5 +15,5 @@ class Course extends Model
     }
     public function courseTimeSchedule(){
        return $this->hasMany(CourseTimeSchedule::class);
-   }
+    }
 }

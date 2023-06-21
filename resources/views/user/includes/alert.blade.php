@@ -14,3 +14,15 @@
         toastr.error("{{ Session::get('selectCourse') }}")
     @endif
 </script>
+
+<script>
+    @if(Session::has('filled'))
+        toastr.error("{{ Session::get('filled') }}")
+    @endif
+</script>
+
+<script>
+    @if(Session::has('alreadyReg'))
+        toastr.warning("{{ Session::get('alreadyReg') }}")
+    @endif
+</script>

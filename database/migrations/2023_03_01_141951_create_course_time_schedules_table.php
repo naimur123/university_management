@@ -24,6 +24,9 @@ return new class extends Migration
             $table->foreign('faculty_id')->references('id')->on('faculties');
             $table->uuid('section_id')->nullable();
             $table->foreign('section_id')->references('id')->on('sections');
+            $table->integer('total_seat')->nullable();
+            $table->integer('registered_seat')->nullable();
+            $table->integer('available_seat')->nullable();
             $table->string('session')->nullable();
             $table->timestamps();
             $table->softDeletes();

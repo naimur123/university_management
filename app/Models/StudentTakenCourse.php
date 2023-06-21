@@ -10,6 +10,9 @@ class StudentTakenCourse extends Model
 {
     use HasFactory;
     use HasUuids;
+    protected $fillable = [
+        'is_confirmed'
+    ];
     public function course_time(){
         return $this->belongsTo(CourseTimeSchedule::class,'course_time_schedule_id');
     }

@@ -38,13 +38,6 @@ class CourseRegistrationController extends Controller
     public function index(Request $request){
 
         $id = $this->extractId($request->user()->user_id);
-        // $data = DB::table('student_taken_courses')
-        // ->leftJoin('course_time_schedules', 'course_time_schedules.id', '=', 'student_taken_courses.course_time_schedule_id')
-        // ->leftJoin('courses', 'courses.id', '=', 'course_time_schedules.course_id')
-        // ->select('courses.*', 'course_time_schedules.*')
-        // ->where('student_taken_courses.user_id', $request->user()->user_id)
-        // ->get();
-       
         $params = [
             "today" => Carbon::now()->toDateString(),
             "now"   => Carbon::now()->toTimeString(),
@@ -53,7 +46,7 @@ class CourseRegistrationController extends Controller
             "takenCourses"    => StudentTakenCourse::with('course_time')->where('user_id',$request->user()->id)->get(),
             "form_url"        => route('student.course.registration.store'),
             "registeredCourseUrl" => route('student.course.registered.list'),
-            "user_id" => $request->user()->user_id,
+            "dropUrl"             => route('student.course.registered.drop'),
         ];
         return view('user.courseregistration.start',$params);
 
@@ -64,24 +57,79 @@ class CourseRegistrationController extends Controller
 
             if($request->course_schedule_id != null){
                 $existingCourseIds = $this->getMOdel()->where('user_id', $request->user()->id)
-                ->where('is_confirmed',0)
+                ->where('is_confirmed',1)
                 ->where('is_completed',0)
                 ->pluck('course_time_schedule_id')
                 ->toArray();
-                if($existingCourseIds){
-                    $this->getModel()->whereIn('course_time_schedule_id',$existingCourseIds)
+
+                $changeFromDatabase = array_diff($existingCourseIds, $request->course_schedule_id);
+                $changeFromCheckbox = array_diff($request->course_schedule_id,$existingCourseIds);
+
+                if(!empty($changeFromDatabase)){
+
+                    $this->getModel()->where('user_id', $request->user()->id)->whereIn('course_time_schedule_id',$changeFromDatabase)
                                      ->delete();
+                    foreach($changeFromDatabase as $checkScheduleId){
+                           $data = CourseTimeSchedule::find($checkScheduleId);
+                           if ($data && $data->available_seat > 0 && $data->available_seat <= 40){
+                                $data->registered_seat--;
+                                $data->available_seat++;
+                                $data->save();
+        
+                                DB::commit();
+                           }
+                    }
                 }
-                foreach ($request->course_schedule_id as $scheduleid) {
-                        $newCourse = new StudentTakenCourse();
-                        $newCourse->id = Str::uuid();
-                        $newCourse->user_id = $request->user()->id;
-                        $newCourse->course_time_schedule_id = $scheduleid;
-                        $newCourse->is_confirmed = 0;
-                        $newCourse->is_completed = 0;
-                        $newCourse->save();
-                        DB::commit();
+                else if($changeFromCheckbox && empty($changeFromDatabase)){
+
+                    foreach ($request->course_schedule_id as $scheduleid) {
+                       $getTakenCourseId = StudentTakenCourse::where('user_id', $request->user()->id)->where('course_time_schedule_id',$scheduleid)->value('id');
+                       $checkTakenCourse = $this->getModel()->find($getTakenCourseId);
+                       if($checkTakenCourse){
+                          $checkTakenCourse->save();
+                           $checkTakenCourse->user_id = $checkTakenCourse->user_id;
+                           $checkTakenCourse->course_time_schedule_id = $checkTakenCourse->course_time_schedule_id;
+                           $checkTakenCourse->is_confirmed = $checkTakenCourse->is_confirmed;
+                           $checkTakenCourse->is_completed = $checkTakenCourse->is_completed;
+                           $checkTakenCourse->save();
+                       
+
+                           $courseTimeSchedule = CourseTimeSchedule::find($scheduleid);
+                           $courseTimeSchedule->registered_seat = $courseTimeSchedule->registered_seat;
+                           $courseTimeSchedule->available_seat = $courseTimeSchedule->available_seat;
+                           $courseTimeSchedule->save();
+
+                           DB::commit();
+                       }
+                       else{
+
+                       $courseTimeSchedule = CourseTimeSchedule::find($scheduleid);
+                       if ($courseTimeSchedule && $courseTimeSchedule->available_seat > 0 && $courseTimeSchedule->available_seat <= 40) {
+                           $newCourse = new StudentTakenCourse();
+                           $newCourse->id = Str::uuid();
+                           $newCourse->user_id = $request->user()->id;
+                           $newCourse->course_time_schedule_id = $scheduleid;
+                           $newCourse->is_confirmed = 1;
+                           $newCourse->is_completed = 0;
+                           $newCourse->save();
+               
+                           $courseTimeSchedule->registered_seat++;
+                           $courseTimeSchedule->available_seat--;
+                           $courseTimeSchedule->save();
+   
+                           DB::commit();
+                       } 
+                       else{
+                           DB::rollBack();
+                           return back()->with("filled","Section full");
+                        }
+                       }
+                   }
                 }
+                else{
+                    return back()->with("alreadyReg","Already registered");
+                }
+                
             }
             else{
                 return back()->with("selectCourse","Select atleast one course");
@@ -111,16 +159,22 @@ class CourseRegistrationController extends Controller
         return json_encode($data);
     }
 
-    public function getRegisteredCourseTable(Request $request){
-        // if($request->ajax()){
-        //     $data =  $data = StudentTakenCourse::with('course_time.courses')->where('user_id', $request->user()->user_id)->get();
-        // }
-        // dd($data);
-        // return DataTables::of($data)->addIndexColumn()
-        //         ->addColumn('index', function(){ return ++$this->index; })
-        //         // ->addColumn('course_name', function($row){ return $row->course_time->courses->course_name ?? "N/A"; })
-        //         ->rawColumns(['action'])
-        //         ->make(true);
+    public function dropRegCourse(Request $request){
+        try{
+            $data = $this->getModel()->where('id',$request->course_takenid)->where('user_id', $request->user()->id)->first();
+            $courseScheduleid = $this->getModel()->where('id',$request->course_takenid)->where('user_id', $request->user()->id)->value('course_time_schedule_id');
+            if($data){
+                $data->delete();
+                $courseTimeSchedule = CourseTimeSchedule::find($courseScheduleid);
+                if($courseTimeSchedule && $courseTimeSchedule->available_seat > 0 && $courseTimeSchedule->available_seat <= 40){
+                    $courseTimeSchedule->registered_seat--;
+                    $courseTimeSchedule->available_seat++;
+                    $courseTimeSchedule->save();
+                }
+            }
+        }catch(Exception $e){
+            return back()->with("error", $this->getError($e))->withInput();
+        }
     }
 
             

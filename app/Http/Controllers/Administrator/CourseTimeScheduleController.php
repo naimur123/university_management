@@ -69,6 +69,9 @@ class CourseTimeScheduleController extends Controller
             $data->faculty_id = $request->faculty_id;
             $data->section_id = $request->section_id;
             $data->session    = $request->session;
+            $data->total_seat = 40;
+            $data->registered_seat = 0;
+            $data->available_seat = 40;
             $data->save();
             
             DB::commit();

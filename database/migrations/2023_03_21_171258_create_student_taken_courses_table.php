@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->uuid('course_time_schedule_id')->nullable();
             $table->foreign('course_time_schedule_id')->references('id')->on('course_time_schedules');
+            $table->integer('is_confirmed')->nullable();
+            $table->integer('is_completed')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

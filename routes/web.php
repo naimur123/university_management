@@ -36,6 +36,8 @@ Route::middleware('auth:user')->group(function(){
 
         //Registered course list
         Route::get('registered/course',[CourseRegistrationController::class,'courseRegisteredList'])->name('course.registered.list');
+        // Drop registered course
+        Route::get('registered/coursedrop',[CourseRegistrationController::class,'dropRegCourse'])->name('course.registered.drop');
 
     });
 

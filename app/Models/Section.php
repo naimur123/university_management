@@ -10,4 +10,8 @@ class Section extends Model
 {
     use HasFactory;
     use HasUuids;
+    // public function courseTimeSchedules()
+    // {
+    //     return $this->hasMany(CourseTimeSchedule::class, 'section_id');
+    // }
 }
