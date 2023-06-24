@@ -42,34 +42,54 @@ class User extends Authenticatable
             $yr = Carbon::now()->year;
             $year = substr($yr, -2);
             $month = Carbon::now()->month;
+            $lastId = static::getLastID();
 
-            $student->user_id = static::generateFacultyId($year, $month );
+            // $student->batch = $yr;
+            // $student->session = $month;
+            $student->middle_id = $lastId;
+            $student->user_id = static::generateStudentId($year, $month, $lastId);
         });
     }
 
-    public static function generateFacultyId($year, $month)
+    public static function generateStudentId($year, $month , $lastId)
     {
      
-        $students = self::all();
-        // $mid_number = intval(explode('-', $last_student_id)[1]);
-        // Determine the user_id suffix based on the added month
+        // $students = self::all();
+
         if ($month >= 1 && $month <= 6) {
             $suffix = 1;
         } else {
             $suffix = 2;
         }
-       
-        $random_number = mt_rand(10000,99999);
-        $user_id = "{$year}-{$random_number}-{$suffix}";
-        foreach($students as $student){
-            if($student->user_id == $user_id){
-                $random_number = mt_rand(10000,99999);
-                $user_id = "{$year}-{$random_number}-{$suffix}";
-                continue;
-            }
-        }
+    //    $max_id = self::max('middle_id');
+    //    if($lastId){
+        // $random_number = mt_rand(10000,99999);
+        // $nextId = $max_id + 1;
+        $user_id = "{$year}-{$lastId}-{$suffix}";
+        // foreach($students as $student){
+        //     if($student->user_id == $user_id){
+        //         $random_number = mt_rand(10000,99999);
+        //         $user_id = "{$year}-{$random_number}-{$suffix}";
+        //         continue;
+        //     }
+        // }
+    // }
+
+    
         
         return $user_id;
+    }
+
+    public static function getLastID(){
+        $max_id = self::max('middle_id');
+        if($max_id){
+            $nextId = $max_id + 1;
+        }
+        else{
+            $nextId = '10001';
+        }
+        
+        return $nextId;
     }
     public function getUserId(){
         return $this->user_id;

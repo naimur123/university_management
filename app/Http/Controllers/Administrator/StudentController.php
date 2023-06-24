@@ -10,6 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Facades\DataTables;
@@ -20,13 +21,13 @@ class StudentController extends Controller
 {
     // Get Table Column List
     private function getColumns(){
-        $columns = ['#', 'user_id', 'first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department', 'program', 'credit', 'cgpa', 'is_graduated', 'added_by', 'updated_by', 'action'];
+        $columns = ['#', 'user_id', 'first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion','maritalstatus','department', 'program', 'credit', 'cgpa', 'is_graduated', 'action'];
         return $columns;
     }
 
     // Get DataTable Column List
     private function getDataTableColumns(){
-        $columns = ['index', 'user_id', 'first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion', 'maritalstatus', 'department_name', 'program', 'credit', 'cgpa','is_graduated','added_by', 'updated_by','action' ];
+        $columns = ['index', 'user_id', 'first_name','middle_name', 'last_name','father_name','mother_name', 'email','mobile','dob','presentaddress','permanentaddress','sex', 'nationality','religion', 'maritalstatus', 'department_name', 'program', 'credit', 'cgpa','is_graduated','action' ];
         return $columns;
     }
     //GetModel
@@ -36,7 +37,16 @@ class StudentController extends Controller
 
    //show student list
    public function index(Request $request){  
-    if( $request->ajax() ){
+
+    // $data = $this->getModel()
+    //                      ->select('users.*')
+    //                      ->join('departments', 'departments.id', '=', 'users.department_id')
+    //                      ->select('departments.curriculum_short_name')
+    //                      ->get();
+    // dd($data);
+    if( $request->ajax() )
+    {
+    
         return $this->getDataTable($request);
     }
     $params = [
@@ -151,23 +161,12 @@ class StudentController extends Controller
 
     protected function getDataTable($request){
         if ($request->ajax()) {
-            // $dpt_id = Department::where('curriculum_short_name',$request->name)->pluck('id');
-            // $data = $this->getModel()
-            //              ->where('department_id',$dpt_id)
-            //              ->select('users.*', 'administrators.first_name as admin_name', 'updated.first_name as updated_by', 'departments.name as department_name')
-            //              ->orderBy('created_at', 'DESC')
-            //              ->join('administrators', 'administrators.id', '=', 'users.added_by')
-            //              ->leftJoin('administrators as updated', 'updated.id', '=', 'users.updated_by')
-            //              ->join('departments', 'departments.id', '=', 'users.department_id')
-            //              ->get();
-            $data = $this->getModel()
-                         ->select('users.*')
-                         ->join('departments', 'departments.id', '=', 'users.department_id')
-                         ->where('departments.curriculum_short_name', $request->name)
-                         ->with('addedBy')
-                         ->with('updatedBy')
-                         ->with('department')
-                         ->get();
+            $data = DB::table('users')
+                    ->join('departments', 'departments.id', '=', 'users.department_id')
+                    ->where('departments.curriculum_short_name', $request->name)
+                    ->select('users.*','departments.name','departments.curriculum_short_name')
+                    ->latest()
+                    ->get();
                 
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('index', function(){ return ++$this->index; })
@@ -176,9 +175,10 @@ class StudentController extends Controller
                 ->addColumn('is_graduated',function($row){ return $row->is_graduated == 0 ? "Undergraduate" : "Graduated" ;})
                 ->addColumn('added_by', function($row){ return $row->addedBy->first_name ?? "N/A"; })
                 ->addColumn('updated_by', function($row){ return $row->updatedBy->first_name ?? "N/A"; })
-                ->addColumn('department_name', function($row){ return $row->department->name; })
+                ->addColumn('department_name', function($row){ return $row->name; })
+                ->addColumn('program', function($row){ return strtoupper($row->curriculum_short_name); })
                 ->addColumn('action', function($row){
-                    $btn = '<a href="'.route('admin.student.edit',['name'=>$row->department->curriculum_short_name,'id' => $row->id]).'" class="btn btn-primary btn-sm">Edit</a>';
+                    $btn = '<a href="'.route('admin.student.edit',['name'=>$row->curriculum_short_name,'id' => $row->id]).'" class="btn btn-primary btn-sm">Edit</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -187,4 +187,49 @@ class StudentController extends Controller
 
 
     }
+    // protected function getDataTable($request)
+    // {
+    //     if ($request->ajax()) {
+    //         $cacheKey = 'datatable.results.' . md5(json_encode($request->all()));
+            
+    //         if (Cache::has($cacheKey)) {
+    //             $data = Cache::get($cacheKey);
+    //         } else {
+    //             $data = $this->getModel()->get();
+                
+    //             Cache::put($cacheKey, $data, 60);
+    //         }
+            
+    //         return DataTables::of($data)->addIndexColumn()
+    //             ->addColumn('index', function () {
+    //                 return ++$this->index;
+    //             })
+    //             ->addColumn('sex', function ($row) {
+    //                 return $this->getSex($row->sex);
+    //             })
+    //             ->addColumn('maritalstatus', function ($row) {
+    //                 return Str::ucfirst($row->maritalstatus);
+    //             })
+    //             ->addColumn('is_graduated', function ($row) {
+    //                 return $row->is_graduated == 0 ? "Undergraduate" : "Graduated";
+    //             })
+    //             ->addColumn('added_by', function ($row) {
+    //                 return $row->addedBy->first_name ?? "N/A";
+    //             })
+    //             ->addColumn('updated_by', function ($row) {
+    //                 return $row->updatedBy->first_name ?? "N/A";
+    //             })
+    //             ->addColumn('department_name', function ($row) {
+    //                 return $row->department->name;
+    //             })
+    //             ->addColumn('action', function ($row) {
+    //                 $btn = '<a href="' . route('admin.student.edit', ['name' => $row->department->curriculum_short_name, 'id' => $row->id]) . '" class="btn btn-primary btn-sm">Edit</a>';
+    //                 return $btn;
+    //             })
+    //             ->rawColumns(['action'])
+    //             ->make(true);
+    //     }
+    // }
+    
+
 }

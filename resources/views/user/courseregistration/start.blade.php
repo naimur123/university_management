@@ -66,36 +66,38 @@
                                 @endif 
                             </label>
                             <div class="row">
-                                @foreach ($course->courseTimeSchedule as $schedule)
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            @php
-                                                $isChecked = false;
-                                            @endphp
-                                            @foreach ($takenCourses as $takenCourse)
-                                                @if ($takenCourse->course_time->id == $schedule->id)
-                                                    @php
-                                                        $isChecked = true;
-                                                        break;
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-                                            <input type="checkbox" id="schedule" class="schedule" name="course_schedule_id[]" value="{{ $schedule->id }}" {{ $isChecked ? 'checked' : '' }}/>
-                                            <label for="schedule">{{ $schedule->section->name }}</label>
-                                            <span>[{{ $schedule->registered_seat.'/'. $schedule->available_seat}}]</span>
-                                            {{-- <b class="d-print-inline-block"></b> --}}
-                                            <br>
-                                            @foreach ($schedule->day as $day)
-                                                <span >
-                                                    {{ $day }} {{ date('h:i A', strtotime($schedule->start_time)) }}-{{ date('h:i A', strtotime($schedule->end_time)) }}
-                                                </span>
-                                            @endforeach
-                                            
-                                        </li>
-                                    </ul>
-                                </div>
-                                @endforeach
+                                @forelse ($course->courseTimeSchedule as $schedule)
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                @php
+                                                    $isChecked = false;
+                                                @endphp
+                                                @foreach ($takenCourses as $takenCourse)
+                                                    @if ($takenCourse->course_time->id == $schedule->id)
+                                                        @php
+                                                            $isChecked = true;
+                                                            break;
+                                                        @endphp
+                                                    @endif
+                                                @endforeach
+                                                <input type="checkbox" id="schedule" class="schedule" name="course_schedule_id[]" value="{{ $schedule->id }}" {{ $isChecked ? 'checked' : '' }}/>
+                                                <label for="schedule">{{ $schedule->section->name }}</label>
+                                                <span>[{{ $schedule->registered_seat.'/'. $schedule->available_seat}}]</span>
+                                                {{-- <b class="d-print-inline-block"></b> --}}
+                                                <br>
+                                                @foreach ($schedule->day as $day)
+                                                    <span >
+                                                        {{ $day }} {{ date('h:i A', strtotime($schedule->start_time)) }}-{{ date('h:i A', strtotime($schedule->end_time)) }}
+                                                    </span>
+                                                @endforeach
+                                                
+                                            </li>
+                                        </ul>
+                                    </div>
+                        @empty
+                            <p class="text-danger">No section available for this course</p>
+                        @endforelse
                             
                             
                             </div>

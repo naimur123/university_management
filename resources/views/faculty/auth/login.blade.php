@@ -24,8 +24,13 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
+    <style>
+        .container{
+   
+        }
+    </style>
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/faculty/app.js','resources/css/faculty/app.css'])
 </head>
 <body>
     <div class="container">
@@ -33,10 +38,10 @@
             <div class="col-md-4 offset-md-4">
                 <div class="card d-flex justify-content-center" style="top:55%">
                     <div class="card-header text-black text-center border-2">
-                        <strong>Admin Login</strong>
+                        <strong>Faculty Login</strong>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.login') }}">
+                        <form method="POST" action="{{ route('faculty.login') }}">
                             @csrf
                             @if ($errors->any())  
                                 <div class="alert alert-danger">
@@ -63,6 +68,7 @@
             </div>
         </div>
     </div>
+    
     {!! Toastr::message() !!}
     
 </body>

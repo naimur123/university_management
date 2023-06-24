@@ -34,17 +34,51 @@
                                 @endforeach                                
                             </tr>
                         </thead>
+
+                        <tbody>
+                            <tr class="loading-row">
+                                <td colspan="{{ count($tableColumns) }}" class="text-center">
+                                    <div class="spinner-grow text-primary" role="status">
+                                    
+                                    </div>
+                                    <div class="spinner-grow text-secondary" role="status">
+                                      
+                                    </div>
+                                    <div class="spinner-grow text-success" role="status">
+                                      
+                                    </div>
+                                    <div class="spinner-grow text-danger" role="status">
+                                      
+                                    </div>
+                                    <div class="spinner-grow text-warning" role="status">
+                                      
+                                    </div>
+                                    <div class="spinner-grow text-info" role="status">
+                                      
+                                    </div>
+                                    <div class="spinner-grow text-light" role="status">
+                                      
+                                    </div>
+                                    <div class="spinner-grow text-dark" role="status">
+                                      
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
         </div>
     </div>
 </div>  
-  
+
+{{-- <div class="loading-row">
+    <img id="loading-image" src="{{ asset('load/loading.gif') }}" alt="Loading..." />
+</div> --}}
                                                   
 <script type="text/javascript">
     let table;
-    $(function() {
-        table = $('#table').DataTable({
+    $(document).ready(function() {
+            table = $('#table').DataTable({
             processing: true,
             serverSide: true,
             ordering: false,
@@ -52,11 +86,21 @@
             columns: [
                 @foreach($dataTableColumns as $column)
                     { data: '{{ $column }}', name: '{{ $column }}' },
-                @endforeach                
+                @endforeach
             ],
-            "lengthMenu": [[10, 20, 50, 100, 500, 1000, -1], [10, 20, 50, 100, 500, 1000, "All"]],
+            "lengthMenu": [[100, 500, 1000, -1], [100, 500, 1000, "All"]],
             "language": {
                 "lengthMenu": "_MENU_"
+            },
+            initComplete: function() {
+                $('.loading-row').hide();
+            },
+            drawCallback: function() {
+                if (table.ajax().data().length === 0) {
+                    $('.loading-row').show();
+                } else {
+                    $('.loading-row').hide();
+                }
             }
         });
     });

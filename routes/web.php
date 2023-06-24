@@ -46,3 +46,4 @@ Route::middleware('auth:user')->group(function(){
 
 require('web_administrator.php');
 
+// require('web_faculty.php');

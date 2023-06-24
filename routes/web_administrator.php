@@ -6,6 +6,7 @@ use App\Http\Controllers\Administrator\CourseTimeScheduleController;
 use App\Http\Controllers\Administrator\FacultyController;
 use App\Http\Controllers\Administrator\StudentController;
 use App\Http\Controllers\Administrator\StudentRegistrationTimeController;
+use Database\Factories\FacultyFactory;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,6 +27,7 @@ Route::middleware('auth:admin')->group(function(){
         Route::get('/assign_faculty',[FacultyController::class,'create'])->name('assign_faculty');
         Route::get('/faculty/edit/{id}',[FacultyController::class,'edit'])->name('faculty.edit');
         Route::post('/assign_faculty',[FacultyController::class,'store'])->name('faculty.store');
+        Route::get('/faculty/passcheck/{id}',[FacultyController::class,'passcheck'])->name('faculty.passcheck');
 
         // course list
         Route::get('/course-list/{name}',[CourseController::class,'index'])->name('course.list');

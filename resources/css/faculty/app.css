@@ -1,0 +1,124 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+#topbar {
+    border: 2px solid #004ea2;
+    margin: 20px 40px 10px 60px;
+}
+.sidebar{
+    margin: auto auto auto 60px;   
+}
+
+.sidebar .btn{
+  margin-top: 4px;
+  display: block;
+  text-align: left !important;
+  width: 150%;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background-color: #004ea2;
+  color: white;
+}
+.collapse-item {
+  width: 150%;
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  color: #555;
+}
+.material-icons{
+  position: relative;
+  top: 4px;
+  display: inline-block;
+  line-height: 1;
+  font-size: 20px;
+}
+
+/* Main contents */
+.contents{
+  border: 1px solid #ddd;
+  margin: 5px 40px 10px 60px;
+}
+/* .card {
+  border: none;
+} */
+#regStart .card{
+  border: 1px solid #ddd;
+  margin: 5px 10px 5px 10px;
+}
+#registration .card{
+  border: 1px solid #ddd;
+  margin: 5px 10px 5px 10px;
+}
+
+/* --------------------------------------------------------------------------------
+    Datatable Design part
+--------------------------------------------------------------------------------
+*/ 
+.dataTables_wrapper .dataTables_filter input, .dataTables_wrapper .dataTables_length select {
+    border:1px solid #ddd;
+    height:35px;
+    border-radius: 5px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.dataTables_wrapper .dataTables_paginate{
+    padding:0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+    margin-left: 0px;
+    border-right:1px solid #ccc;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current{
+    background: #01a9ac !important;
+    border-color: #01a9ac;
+    color:#fff !important;
+}
+
+
+/* Toastr message */
+.toast-success {
+  background-color: #28a745 !important;
+}
+
+.toast-error {
+    background-color: #bd362f !important;
+}
+
+.toast-warning {
+  background-color: #eaae2c !important;
+}
+.multiselect-container label.radio {
+	padding-left: 20px !important;
+}
+
+/* Hide Down Arrow */
+.multiselect.dropdown-toggle::after {
+	display: none;
+}
+
+/* Loading skeleton */
+/* .loading-skeleton {
+  background-color: #6370e34a;
+  border-radius: 4px;
+  animation: loading 1s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.6;
+  }
+} */

@@ -40,10 +40,6 @@ class Faculty extends Authenticatable
 
     public static function generateFacultyId($year, $date)
     {
-        // Increment the last faculty ID by 1 (or start at 1 if there are no existing faculty IDs)
-        // $last_faculty_id = static::max('user_id');
-        // $increment_number = $last_faculty_id ? intval(substr($last_faculty_id, -5)) + 1 : 1;
-       
         $increment_number = mt_rand(00000,99999);
         return sprintf('%04d-%05d-%s', $year, $increment_number, $date);
     }

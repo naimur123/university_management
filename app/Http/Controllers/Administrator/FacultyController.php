@@ -9,7 +9,9 @@ use Brian2694\Toastr\Facades\Toastr;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -98,7 +100,7 @@ class FacultyController extends Controller
             $data->religion = $request->religion;
             $data->maritalstatus = $request->maritalstatus;
             $data->department_id = $request->department_id;
-            $data->password = bcrypt(8);
+            $data->password = !empty($request->password) ? bcrypt($request->password) : $data->password;
             $data->save();
             
             DB::commit();
@@ -131,6 +133,14 @@ class FacultyController extends Controller
        
     }
 
+    //password dcrypt
+    public function passcheck(Request $request){
+        $data = $this->getModel()->find($request->id);
+
+        // $pass1 = Crypt::encryptString($data->password);
+        // $password = Crypt::decryptString($pass1);
+        // dd($password);
+    }
 
     protected function getDataTable($request){
         if ($request->ajax()) {
@@ -154,9 +164,15 @@ class FacultyController extends Controller
                 ->addColumn('added_by', function($row){ return $row->addedBy->first_name ?? "N/A"; })
                 ->addColumn('updated_by', function($row){ return $row->updatedBy->first_name ?? "N/A"; })
                 ->addColumn('department_name', function($row){ return $row->department->name; })
-                ->addColumn('action', function($row){
-                    $btn = '<a href="'.route('admin.faculty.edit',['id' => $row->id]).'" class="btn btn-primary btn-sm">Edit</a>';
-                    return $btn;
+                // ->addColumn('action', function($row){
+                //     $btn = '<a href="'.route('admin.faculty.edit',['id' => $row->id]).'" class="btn btn-primary btn-sm">Edit</a> &nbsp';
+                //     // $btn = '<a href="'.route('admin.faculty.dcryptpass',['id' => $row->id]).'" class="btn btn-danger btn-sm">Decrypt Password</a>';
+                //     return $btn;
+                // })
+                ->addColumn('action', function($row){                
+                    $li = '<a href="'.route('admin.faculty.edit',['id' => $row->id]).'" class="btn btn-sm btn-info" title="Edit" ><ion-icon name="create-outline"></ion-icon></a> ';  
+                    $li .= '<a href="'.route('admin.faculty.passcheck',[$row->id]).'" class="btn btn-sm btn-warning" title="Dcrypt" ><ion-icon name="eye-outline"></ion-icon></span> </a> ';  
+                    return $li;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
