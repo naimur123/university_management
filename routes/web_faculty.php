@@ -30,6 +30,9 @@ Route::middleware('auth:faculty')->group(function(){
         //class view
         Route::get('/class/view/{schedule_id}',[ClassViewController::class,'classView'])->name('class.view');
 
+        //upload notes
+        Route::post('/upload/notes/{schedule_id}',[ClassViewController::class,'uploadNotes'])->name('upload_notes');
+
        
     });
 

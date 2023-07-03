@@ -31,7 +31,8 @@ return [
     "is_graduated" => "Graduated",
     "program"     => "Program",
     "credit"      => "Credit Completed",
-    "cgpa"        => "CGPA"
+    "cgpa"        => "CGPA",
+    "student_name" => "Student name"
 
 
     
