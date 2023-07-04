@@ -97,6 +97,12 @@ class StudentLoginController extends Controller
         return view('user.dashboard.home',$params);
     }
 
+    //Mark as notification read
+    public function markRead(Request $request){
+        Auth::user()->unreadNotifications->markAsRead();
+        return redirect()->back();
+    }
+
     public function logout(){
         return Auth::guard('user')->logout() ?: redirect()->back();
     }

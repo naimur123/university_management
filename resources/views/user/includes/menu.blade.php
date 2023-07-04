@@ -5,13 +5,57 @@
                 <a class="navbar-brand" href="{{ route('student.home') }}">
                     XYZ University 
                 </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+                {{-- <div class="col-md-10">
+                    <a class="d-flex justify-content-end align-items-center" href="#" style="position: relative; padding-right: 15px;">
+                        <ion-icon name="notifications-outline" style="font-size: 20px;"></ion-icon>
+                        <span class="badge bg-danger badge-sm" style="position: absolute; top: -5px; right: -1px; font-size: 10px;">
+                            {{ auth()->user()->unreadNotifications->count() }}
+                        </span>
+                    </a>
+                </div> --}}
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Right Side Of Navbar -->
+                    <!-- Notifications -->
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style="position: relative; padding-right: 15px;">
+                                <ion-icon name="notifications-outline" style="font-size: 20px;"></ion-icon>
+                                <span class="badge bg-danger badge-sm" style="position: absolute; top: -5px; right: -1px; font-size: 10px;">
+                                    {{ auth()->user()->unreadNotifications->count() }}
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" style="width: 300px;">
+                                <div class="dropdown-body">
+                                    @foreach (auth()->user()->unreadNotifications as $notification)
+                                        <a href="#" class="text-info text-decoration-none">
+                                            <div class="list-item mx-2"><span class="bullet" style="font-size: 20px">&#8226;</span>{{ $notification->data['data'] }}</div>
+                                        </a>
+                                    @endforeach
+                        
+                                    @foreach (auth()->user()->readNotifications as $notification)
+                                        <a href="#" class="text-info text-decoration-none">
+                                            <div class="list-item mx-2"><span class="bullet" style="font-size: 20px">&#8226;</span>{{ $notification->data['data'] }}</div>
+                                        </a>
+                                    @endforeach
+
+                                    @if (auth()->user()->unreadNotifications)
+                                    <div class="dropdown-footer d-flex justify-content-center">
+                                        <a href="{{ route('student.noti.markRead') }}" class="btn btn-sm btn-secondary text-bold my-1">Mark All as Read</a>
+                                    </div>
+                                    @endif
+                        
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <!--END-->
+
+
                         <!-- Authentication Links -->
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

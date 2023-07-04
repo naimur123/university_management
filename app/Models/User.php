@@ -97,4 +97,5 @@ class User extends Authenticatable
     protected $dispatchesEvents = [
         'created' => StudentCreated::class
      ];
+     protected $guarded = [];
 }

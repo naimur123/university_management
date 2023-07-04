@@ -39,6 +39,9 @@ Route::middleware('auth:user')->group(function(){
         // Drop registered course
         Route::get('registered/coursedrop',[CourseRegistrationController::class,'dropRegCourse'])->name('course.registered.drop');
 
+        //mark read notification
+        Route::get('/notification/mark-as-read',[StudentLoginController::class,'markRead'])->name('noti.markRead');
+
     });
 
 });

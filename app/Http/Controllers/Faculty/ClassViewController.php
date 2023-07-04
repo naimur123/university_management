@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Faculty;
 use App\Http\Controllers\Controller;
 use App\Models\FacultyNotes;
 use App\Models\StudentTakenCourse;
+use App\Models\User;
+use App\Notifications\NewNoteUploadedNotification;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -45,7 +49,7 @@ class ClassViewController extends Controller
             'tableStyleClass'   => 'bg-success',
            
         ];
-        return view('faculty.table', $params);
+        return view('faculty.classview.table', $params);
 
    
               
@@ -54,8 +58,11 @@ class ClassViewController extends Controller
     //upload notes
     public function uploadNotes(Request $request){
         // dd($request->schedule_id);
+        // dd($faculty_name);
+        // dd($student_list);
         try{
             $uploadedFiles = [];
+            $filenames = [];
             if ($request->hasFile('files')) {
                 $files = $request->file('files');
                 foreach ($files as $file) {
@@ -64,17 +71,43 @@ class ClassViewController extends Controller
                     $filename = $timestamp . '_' . $originalFilename;
                     $path = $file->storeAs('facultynotes', $filename);
                     $uploadedFiles[] = $path;
+                    $filenames[] = $originalFilename;
                 }
-            }
 
-            //filename save to database
-            foreach ($uploadedFiles as $path) {
-                $facultyNote = new FacultyNotes();
-                $facultyNote->filename = $path;
-                $facultyNote->course_time_schedule_id = $request->schedule_id;
-                $facultyNote->save();
-                DB::commit();
+                //filename save to database
+                foreach ($uploadedFiles as $path) {
+                    $facultyNote = new FacultyNotes();
+                    $facultyNote->filename = $path;
+                    $facultyNote->course_time_schedule_id = $request->schedule_id;
+                    $facultyNote->save();
+                    DB::commit();
+
+                    $faculty_name = Auth::user()->first_name .' '.Auth::user()->last_name;
+                    $student_list = DB::table('student_taken_courses')
+                                    ->join('users','users.id','=','student_taken_courses.user_id')
+                                    ->select('users.*')
+                                    ->where('student_taken_courses.course_time_schedule_id',$request->schedule_id)
+                                    ->where('student_taken_courses.is_confirmed', 1)
+                                    ->get();
+                    $users = [];
+                    foreach ($student_list as $student) {
+                        $user = User::find($student->id);
+                        if ($user) {
+                            $users[] = $user;
+                        }
+                    }
+                    
+                }
+                foreach($filenames as $notiFileName){
+                    Notification::send($users, new NewNoteUploadedNotification($faculty_name,$notiFileName));
+                }
+                
             }
+            else{
+                return back()->with('error',"No file selected");
+            }
+            
+           
             return redirect()->back()->with('success', 'Files uploaded successfully.');
 
         }catch(Exception $e){

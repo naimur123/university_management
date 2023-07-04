@@ -12,19 +12,19 @@
                 </div>
               </div>
         </div>
-      <div class="card-body">
-            <div class="dt-plugin-buttons"></div>
-                <div class="dt-responsive table-responsive">
-                    <table id="table" class="table table-striped table-bordered nowrap">
-                        <thead class="{{ isset($tableStyleClass) ? $tableStyleClass : 'bg-primary'}}">
-                            <tr>
-                                @foreach($tableColumns as $column)
-                                    <th> @lang('table.'.$column)</th>
-                                @endforeach                                
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+        <div class="card-body">
+          <div class="dt-responsive table-responsive">
+            <table id="table" class="table table-striped table-bordered nowrap">
+                <thead class="{{ isset($tableStyleClass) ? $tableStyleClass : 'bg-primary'}}">
+                    <tr>
+                        @foreach($tableColumns as $column)
+                            <th> @lang('table.'.$column)</th>
+                        @endforeach                                
+                    </tr>
+                </thead>
+            </table>
+          </div>
+                
         </div>
     </div>
 </div>  

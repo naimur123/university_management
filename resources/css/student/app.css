@@ -122,3 +122,15 @@ body {
     opacity: 0.6;
   }
 } */
+
+
+/* .badge{
+  position: relative;
+  margin-top: -5px;
+} */
+.bullet {
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-bottom: 2px; /* Add desired spacing */
+}
