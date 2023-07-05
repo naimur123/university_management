@@ -35,6 +35,8 @@ class CourseRegistrationController extends Controller
     private function getModel(){
         return new StudentTakenCourse();
     }
+
+    //course registraion
     public function index(Request $request){
 
         $id = $this->extractId($request->user()->user_id);

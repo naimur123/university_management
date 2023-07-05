@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\User\Auth\StudentLoginController;
+use App\Http\Controllers\User\ClassDetailsController;
 use App\Http\Controllers\User\CourseRegistrationController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,13 @@ Route::middleware('auth:user')->group(function(){
 
         //mark read notification
         Route::get('/notification/mark-as-read',[StudentLoginController::class,'markRead'])->name('noti.markRead');
+
+        //get notes
+        Route::get('/class/{schedule_id}/{name}',[ClassDetailsController::class,'classTab'])->name('class.tab');
+        // Route::get('/class/{schedule_id}/noticeTab',[ClassDetailsController::class,'classTab'])->name('class.noticeTab');
+
+        //download file
+        Route::get('/document/download/{path}',[ClassDetailsController::class,'fileDownload'])->name('document.download');
 
     });
 

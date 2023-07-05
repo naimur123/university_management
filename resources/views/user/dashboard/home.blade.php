@@ -34,11 +34,10 @@
                                     <p><b>Result:</b></p>
                                 </div>
                                 <div class="card-footer" style="background-color: #42a5f5;">
-                                    <div class="">
-                                        <a href="" class="text-decoration-none text-white"><span class="material-icons">description</span> Notes</a> &nbsp;
-                                        <a href="" class="text-decoration-none text-white" style="margin-right: 1em"><span class="material-icons">campaign</span> Notices</a>
+                                    <div class="d-flex justify-content-center">
+                                        <ion-icon name="document-text" style="font-size: 20px;color:azure"></ion-icon> <a href="{{ route('student.class.tab',["name"=>"notes","schedule_id" =>$registeredCourses->course_time_schedule_id]) }}" class="text-decoration-none text-white">Notes</a>&nbsp; &nbsp;
+                                        <ion-icon name="megaphone" style="font-size: 20px;color:azure"></ion-icon><a href="{{ route('student.class.tab',["name"=>"notice","schedule_id" =>$registeredCourses->course_time_schedule_id]) }}" class="text-decoration-none text-white">Notices</a>
                                     </div>
-                                   
                                 </div>
                             </div>
                         </div>

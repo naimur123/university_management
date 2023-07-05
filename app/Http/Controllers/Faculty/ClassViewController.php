@@ -67,9 +67,9 @@ class ClassViewController extends Controller
                 $files = $request->file('files');
                 foreach ($files as $file) {
                     $originalFilename = $file->getClientOriginalName();
-                    $timestamp = time().rand(1,99);
-                    $filename = $timestamp . '_' . $originalFilename;
-                    $path = $file->storeAs('facultynotes', $filename);
+                    // $timestamp = time().rand(1,99);
+                    // $filename = $timestamp . '_' . $originalFilename;
+                    $path = $file->storeAs('facultynotes', $originalFilename);
                     $uploadedFiles[] = $path;
                     $filenames[] = $originalFilename;
                 }

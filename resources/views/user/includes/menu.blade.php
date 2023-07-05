@@ -24,7 +24,7 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style="position: relative; padding-right: 15px;">
-                                <ion-icon name="notifications-outline" style="font-size: 20px;"></ion-icon>
+                                <ion-icon name="notifications-outline" style="font-size: 20px; color:rgb(80, 196, 243)"></ion-icon>
                                 <span class="badge bg-danger badge-sm" style="position: absolute; top: -5px; right: -1px; font-size: 10px;">
                                     {{ auth()->user()->unreadNotifications->count() }}
                                 </span>
