@@ -4,7 +4,7 @@
     </div>
     <div class="navbar navbar-expand-md" id="sidebarNavbar">
         <button class="navbar-toggler ml-auto" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle Sidebar">
-            <ion-icon name="reorder-four-outline"></ion-icon>
+        <ion-icon name="reorder-four-outline"></ion-icon>
         </button>
     </div>
     <div class="container-fluid" id="app"> 

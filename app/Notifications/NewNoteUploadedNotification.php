@@ -11,14 +11,16 @@ class NewNoteUploadedNotification extends Notification
 {
     use Queueable;
     protected $faculty_name;
+    protected $noti_name;
     protected $file_name;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($faculty_name,$file_name)
+    public function __construct($faculty_name,$noti_name, $file_name)
     {
         $this->faculty_name = $faculty_name;
+        $this->noti_name = $noti_name;
         $this->file_name = $file_name;
     }
 
@@ -50,7 +52,7 @@ class NewNoteUploadedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'data' => $this->faculty_name. ' uploaded new note '.' '. $this->file_name
+            'data' => $this->faculty_name. ' uploaded new ' .$this->noti_name. ' ' . $this->file_name
         ];
     }
 }

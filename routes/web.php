@@ -45,7 +45,8 @@ Route::middleware('auth:user')->group(function(){
 
         //get notes
         Route::get('/class/{schedule_id}/{name}',[ClassDetailsController::class,'classTab'])->name('class.tab');
-        // Route::get('/class/{schedule_id}/noticeTab',[ClassDetailsController::class,'classTab'])->name('class.noticeTab');
+
+        Route::get('/notices',[ClassDetailsController::class,'getNotice']);
 
         //download file
         Route::get('/document/download/{path}',[ClassDetailsController::class,'fileDownload'])->name('document.download');

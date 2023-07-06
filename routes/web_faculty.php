@@ -32,7 +32,10 @@ Route::middleware('auth:faculty')->group(function(){
 
         //upload notes
         Route::post('/upload/notes/{schedule_id}',[ClassViewController::class,'uploadNotes'])->name('upload_notes');
-
+        
+        //upload notice
+        Route::post('/upload/notices/{schedule_id}',[ClassViewController::class,'uploadNotices'])->name('upload_notices');
+        
        
     });
 
