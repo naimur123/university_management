@@ -82,6 +82,17 @@ trait Helper{
         return $days;
     }
 
+    //date with name
+    public function getDateDays(){
+        $currentDate = Carbon::now()->startOfWeek(Carbon::FRIDAY);
+        $dates = [];
+        for ($i = 0; $i < 7; $i++) {
+            $date = $currentDate->copy()->addDays($i);
+            $dates[$date->format('Y-m-d')] = $date->format('l');
+        }
+        return $dates;
+    }
+
      //file size
      public function fileformation($file){
         $bytes = Storage::size($file);

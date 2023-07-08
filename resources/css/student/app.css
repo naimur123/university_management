@@ -103,6 +103,19 @@ body {
   border: 1px solid #ddd;
   margin: 5px 10px 5px 10px;
 }
+#class_schedule .card{
+  border: 1px solid #ddd;
+  margin: 5px 10px 5px 10px;
+  height: 300px;
+  font-size: 10px;
+  line-height: 5%;
+  overflow-y: scroll;
+
+}
+#class_schedule .card-header{
+  /* margin-bottom: 20px; */
+  background-color: #004ea2;
+}
 
 /* --------------------------------------------------------------------------------
     Datatable Design part

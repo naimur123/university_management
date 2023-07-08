@@ -1,6 +1,7 @@
 @extends('user.masterPage')
 @section('content')
 <div class="container">
+    {{-- upper side --}}
     <div class="row">
         <div class="col-md-5 mx-1 my-2">
             @foreach ($datas as $data)
@@ -116,15 +117,6 @@
         <!-- Tab panes -->
         <div class="tab-content mt-1 ml-0">
           <div class="tab-pane container active" id="notes">
-            <style>
-                /* .table thead th {
-                    border-top: 1px solid #dee2e6;
-                }
-
-                .table tbody tr:last-child td {
-                    border-bottom: none;
-                } */
-            </style>
             <table class="table table-responsive" id="tabTable">
                 <thead>
                   <tr>
