@@ -1,12 +1,13 @@
 body {
-    font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 #topbar {
-    border: 2px solid #004ea2;
-    margin: 20px 40px 10px 60px;
+  border: 2px solid #004ea2;
+  margin: 20px 40px 10px 60px;
+  height: 80px;
 }
 .sidebar{
-    margin: auto auto auto 60px;   
+  margin: auto auto auto 60px;   
 }
 
 .sidebar .btn{
@@ -42,17 +43,7 @@ body {
   border: 1px solid #ddd;
   margin: 5px 40px 10px 60px;
 }
-/* .card {
-  border: none;
-} */
-#regStart .card{
-  border: 1px solid #ddd;
-  margin: 5px 10px 5px 10px;
-}
-#registration .card{
-  border: 1px solid #ddd;
-  margin: 5px 10px 5px 10px;
-}
+
 
 /* --------------------------------------------------------------------------------
     Datatable Design part
@@ -104,21 +95,54 @@ body {
 	display: none;
 }
 
-/* Loading skeleton */
-/* .loading-skeleton {
-  background-color: #6370e34a;
-  border-radius: 4px;
-  animation: loading 1s ease-in-out infinite;
+@media (max-width: 700px) {
+  #topbar{
+    margin: 20px 0px 0px 0px;
+  }
+  .contents{
+    margin-top: 5%;
+    width: 122%;
+    margin-left: -60px;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -90%;
+    width: 60%;
+    background: #f1f2f4;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar .btn {
+    margin-top: 4px;
+    display: block;
+    text-align: left !important;
+    width: 85%;
+    border: none;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-color: #004ea2;
+    color: white;
+  }
+  
+  .collapse-item {
+    width: 85%;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #555;
+  }
+  
+  .sidebar.show {
+    left: -50px;
+    margin-top: 50px;
+    position: fixed;
+    height: 100%;
+    width: 60%;
+  } 
 }
 
-@keyframes loading {
-  0% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0.6;
-  }
-} */
+ /* end */

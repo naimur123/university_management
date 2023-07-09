@@ -19,14 +19,21 @@
     @endforeach
   
     {{-- class schedule --}}
-    <div class="col-12" id="class_schedule">
+    <div class="col-12" id="cTime">
         <div class="card">
-            <div class="card-header text-white">Class schedule</div>
+            <div class="card-header text-white" style="background-color: #004ea2;">Class schedule</div>
             <div class="card-body">
                  <div class="row">
                      <div class="col-12 col-lg-12">
                         @foreach ($datesDays as $date => $name)
                         @php
+                            $yesterday = \Carbon\Carbon::yesterday();
+                            $today = \Carbon\Carbon::today();
+                            $tomorrow = \Carbon\Carbon::tomorrow();
+                            $parseDate = \Carbon\Carbon::parse($date);
+                            if ($parseDate->isSameDay($yesterday)) {
+                                continue;
+                            }
                             $courses = $getRegisteredCourses->filter(function ($courseTime) use ($name) {
                                 return in_array($name, $courseTime->course_time->day);
                             })->map(function ($courseTime) use ($date, $name) {
@@ -43,8 +50,10 @@
                         @endphp
         
                         @if ($courses->count() > 0)
-                            @if (\Carbon\Carbon::today()->isSameDay($date))
+                            @if ($today->isSameDay($parseDate))
                             <p><strong>Today</strong></p>
+                            @elseif($parseDate->isSameDay($tomorrow))
+                            <p><strong>Tomorrow</strong></p>
                             @else
                             <p><strong>{{ date('d-M-Y', strtotime($date))}}</strong></p>
                             @endif
@@ -53,9 +62,13 @@
                             @endforeach
                             <hr>
                         @else
-                            @if (\Carbon\Carbon::today()->isSameDay($date))
+                            @if ($today->isSameDay($parseDate))
                                 <p><strong>Today</strong></p>
                                 <p>No classes today</p>
+                                <hr>
+                            @elseif($parseDate->isSameDay($tomorrow))
+                                <p><strong>Tomorrow</strong></p>
+                                <p>No classes on this day</p>
                                 <hr>
                             @else
                                 <p><strong>{{ date('d-M-Y', strtotime($date))}}</strong></p>

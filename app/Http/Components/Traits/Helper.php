@@ -84,9 +84,9 @@ trait Helper{
 
     //date with name
     public function getDateDays(){
-        $currentDate = Carbon::now()->startOfWeek(Carbon::FRIDAY);
+        $currentDate = Carbon::now()->startOfWeek(Carbon::SATURDAY);
         $dates = [];
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i < 6; $i++) {
             $date = $currentDate->copy()->addDays($i);
             $dates[$date->format('Y-m-d')] = $date->format('l');
         }

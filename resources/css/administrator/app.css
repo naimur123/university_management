@@ -4,6 +4,7 @@ body {
 #topbar {
     border: 2px solid #004ea2;
     margin: 20px 40px 10px 60px;
+    height: 80px;
 }
 .sidebar{
   margin: auto auto auto 60px;   
@@ -45,11 +46,14 @@ body {
 .card {
   border: none;
 }
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  #topbar{
+    margin: 20px 0px 0px 0px;
+  }
   .contents{
     margin-top: 5%;
     width: 122%;
-    margin-left: -70px;
+    margin-left: -60px;
   }
   .sidebar {
     position: fixed;

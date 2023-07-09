@@ -114,7 +114,7 @@
           </li>
         </ul>
 
-        <!-- Tab panes -->
+        <!--Notes Tab panes -->
         <div class="tab-content mt-1 ml-0">
           <div class="tab-pane container active" id="notes">
             <table class="table table-responsive" id="tabTable">
