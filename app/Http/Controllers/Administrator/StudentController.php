@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Administrator;
 
+use App\Http\Components\Classes\Fetchify;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\User;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
-
+use RealRashid\SweetAlert\Facades\Alert;
 
 class StudentController extends Controller
 {
@@ -83,6 +84,10 @@ class StudentController extends Controller
 
     $random = mt_rand(10000000,99999999);
     try{
+
+        $fetchify = new Fetchify();
+        $fetchify->isValidEmail($request->email);
+        
         DB::beginTransaction();
         if( $request->id == 0 ){
 
@@ -99,6 +104,7 @@ class StudentController extends Controller
         $data->first_name = $request->first_name;
         $data->middle_name = $request->middle_name;
         $data->last_name = $request->last_name;
+        // $data->email = (new Fetchify())->isValidEmail($request->email);
         $data->email = $request->email;
         $data->dob = $request->dob;
         $data->mobile = $request->mobile;
@@ -128,10 +134,14 @@ class StudentController extends Controller
         }
         }catch(Exception $e){
             DB::rollBack();
-            return back()->with("error", $this->getError($e))->withInput();
+            Alert::error('Error', $this->getError($e));
+            return back();
+            // return back()->with("error", $this->getError($e))->withInput();
         }
-        
-        return back()->with("success", $request->id == 0 ? "Student Added Successfully" : "Student Updated Successfully");
+        ;
+        // return back()->with("success", $request->id == 0 ? "Student Added Successfully" : "Student Updated Successfully");
+        $request->id == 0 ? Alert::success('Success', 'Student Added Successfully') : Alert::success('Success', 'Student Updated Successfully');
+        return back();
    
     }
 

@@ -1,9 +1,9 @@
 @extends('administrator.masterPage')
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-12 col-lg-12 mt-1 mb-2">
+    {{-- <div class="col-12 col-lg-12 mt-1 mb-2">
            @include('administrator.includes.alert')
-    </div>
+    </div> --}}
     <div class="col-12 col-lg-12 mt-1 mb-2">
         <div class="card">
             <div class="card-body">

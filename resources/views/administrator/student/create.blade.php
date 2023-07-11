@@ -1,9 +1,9 @@
 @extends('administrator.masterPage')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-12 mt-2 mb-2">
+        {{-- <div class="col-12 col-lg-12 mt-2 mb-2">
                @include('administrator.includes.alert')
-        </div>
+        </div> --}}
         <div class="col-12 col-lg-12 mt-2 mb-2">
             <div class="card">
                 <div class="card-body">
@@ -73,10 +73,17 @@
                         <div class="col-12 col-sm-6 col-md-4">
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" class="form-control " value="{{ old("email") ?? ($data->email ?? "")}} {{--  {{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="first_name" id="first_name" value="{{ old("first_name") ?? ($data->first_name ?? "")}}--}}" name="email" required >
-                                @error('email')
-                                    <strong class="text-danger">{{ $message }}</strong>
-                                @enderror
+                                <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }} verify" name="email" value="{{ old("email") ?? ($data->email ?? "")}}" data-verify_type="email"  required >
+                                @if ($errors->has('email'))
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                                @if (isset($email_error))
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $email_error }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                         <!-- Student DOB -->
@@ -190,5 +197,41 @@
         </form>
     
     </div>
+    <script type="text/javascript">
+       $(document).ready(function(){
+        var typingTimer;
+        var self;
+        $(document).on("keyup", ".verify", function(){
+            clearTimeout(typingTimer);
+            self = $(this);
+            typingTimer = setTimeout(verifyNow, 1500);
+        });
+
+        function verifyNow () {
+            let verify_type = self.data('verify_type');
+            let value = self.val();
+            console.log(value)
+            $.ajax({
+                url : "/validate",
+                data : {
+                    field : verify_type,
+                    field_value : value
+                },
+                success:function(output){
+                    console.log(output.response);
+                    if(output.response === "ok"){
+                        self.removeClass("is-invalid");
+                        self.addClass("is-valid");
+                    }else{
+                        self.addClass("is-invalid");
+                        self.removeClass("is-valid")
+                    }
+
+                }
+            });
+        }
+       })
+
+    </script>
     
 @endsection

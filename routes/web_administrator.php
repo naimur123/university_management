@@ -6,9 +6,13 @@ use App\Http\Controllers\Administrator\CourseTimeScheduleController;
 use App\Http\Controllers\Administrator\FacultyController;
 use App\Http\Controllers\Administrator\StudentController;
 use App\Http\Controllers\Administrator\StudentRegistrationTimeController;
+use App\Http\Controllers\Administrator\VerificationController;
 use Database\Factories\FacultyFactory;
 use Illuminate\Support\Facades\Route;
 
+
+
+Route::get('/validate', [VerificationController::class,'verify']);
 
 Route::get('/admin/login',[LoginController::class, 'showloginform']);
 Route::post('/admin/login',[LoginController::class, 'login'])->name('admin.login');
