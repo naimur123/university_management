@@ -2,7 +2,6 @@
 
 namespace App\Http\Components\Classes;
 
-use Exception;
 use Illuminate\Support\Facades\Http;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -32,25 +31,18 @@ class Fetchify{
      */
     public function isValidEmail($email){
         $key = "qRuC1llLTknRABNgs0HSX";
-    $url = "https://apps.emaillistverify.com/api/verifyEmail";
-    $params = [
-        "secret" => $key,
-        "email"  => $email,
-    ];
-    $response = Http::get($url, $params);
-    if ($response->body() === "ok") {
-        $this->status = true;
-        $this->message = "The Email Address is Valid";
-        
-    } else {
-        $this->status = false;
-        $this->message = "The Email Address is not Valid";
-    }
-    // if (!$this->status) {
-    //     throw new Exception($this->message);
-        
-    // }
-    return $this->output($this->message, $this->status, $response->body());
+        $url = "https://apps.emaillistverify.com/api/verifyEmail";
+        $params = [
+            "secret" => $key,
+            "email"  => $email,
+        ];
+        $response = Http::get($url, $params);
+        $this->status = $response === "ok" ? true : false;
+        $this->message = $response === "ok" ? "The Email Address is Valid" : "The Email Address is not Valid";
+        // if (!$this->status) {
+        //     throw new \Exception($this->message);
+        // }
+        return $this->output($this->message, $this->status, $response->body());
 
     }
 
