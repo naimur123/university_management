@@ -198,39 +198,39 @@
     
     </div>
     <script type="text/javascript">
-       $(document).ready(function(){
-        var typingTimer;
-        var self;
-        $(document).on("keyup", ".verify", function(){
-            clearTimeout(typingTimer);
-            self = $(this);
-            typingTimer = setTimeout(verifyNow, 1500);
-        });
+    //    $(document).ready(function(){
+    //     var typingTimer;
+    //     var self;
+    //     $(document).on("keyup", ".verify", function(){
+    //         clearTimeout(typingTimer);
+    //         self = $(this);
+    //         typingTimer = setTimeout(verifyNow, 1500);
+    //     });
 
-        function verifyNow () {
-            let verify_type = self.data('verify_type');
-            let value = self.val();
-            console.log(value)
-            $.ajax({
-                url : "/validate",
-                data : {
-                    field : verify_type,
-                    field_value : value
-                },
-                success:function(output){
-                    console.log(output.response);
-                    if(output.response === "ok"){
-                        self.removeClass("is-invalid");
-                        self.addClass("is-valid");
-                    }else{
-                        self.addClass("is-invalid");
-                        self.removeClass("is-valid")
-                    }
+    //     function verifyNow () {
+    //         let verify_type = self.data('verify_type');
+    //         let value = self.val();
+    //         console.log(value)
+    //         $.ajax({
+    //             url : "/validate",
+    //             data : {
+    //                 field : verify_type,
+    //                 field_value : value
+    //             },
+    //             success:function(output){
+    //                 console.log(output.response);
+    //                 if(output.response === "ok"){
+    //                     self.removeClass("is-invalid");
+    //                     self.addClass("is-valid");
+    //                 }else{
+    //                     self.addClass("is-invalid");
+    //                     self.removeClass("is-valid")
+    //                 }
 
-                }
-            });
-        }
-       })
+    //             }
+    //         });
+    //     }
+    //    })
 
     </script>
     

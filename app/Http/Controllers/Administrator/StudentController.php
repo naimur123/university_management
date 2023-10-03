@@ -85,8 +85,8 @@ class StudentController extends Controller
     $random = mt_rand(10000000,99999999);
     try{
 
-        $fetchify = new Fetchify();
-        $fetchify->isValidEmail($request->email);
+        // $fetchify = new Fetchify();
+        // $fetchify->isValidEmail($request->email);
         
         DB::beginTransaction();
         if( $request->id == 0 ){
